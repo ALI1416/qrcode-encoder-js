@@ -1,0 +1,27 @@
+{
+  "name": "@ali1416/qrcode-encoder-js",
+  "version": "0.0.1",
+  "description": "二维码生成器js版",
+  "keywords": [
+    "qrcode"
+  ],
+  "authors": [
+    {
+      "name": "ali",
+      "email": "ali-k@foxmail.com"
+    }
+  ],
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node",
+    "build": "tsc"
+  },
+  "private": false,
+  "license": "Apache-2.0",
+  "bugs": "https://github.com/ALI1416/qrcode-encoder-js/issues/new",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ALI1416/qrcode-encoder-js.git"
+  },
+  "homepage": "https://github.com/ALI1416/qrcode-encoder-js"
+}
