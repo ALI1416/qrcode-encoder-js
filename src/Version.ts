@@ -10,48 +10,48 @@ class Version {
    * 版本号
    * @description [1,40]
    */
-  VersionNumber: number
+  readonly VersionNumber: number
   /**
-   *尺寸
+   * 尺寸
+   * [21,177]
    * @description 尺寸 = (版本号 - 1) * 4 + 21
-   * @description [21,177]
    */
-  Dimension: number
+  readonly Dimension: number
   /**
    * `内容字节数`bit数
    */
-  ContentBytesBits: number
+  readonly ContentBytesBits: number
   /**
    * 数据bit数
    * @description ECI模式指示符+ECI指定符+模式指示符+`内容字节数`bit数+内容+结束符+补齐符
    */
-  DataBits: number
+  readonly DataBits: number
   /**
    * 数据和纠错bit数
    * @description 数据bit数+纠错bit数
    */
-  DataAndEcBits: number
+  readonly DataAndEcBits: number
   /**
    * 纠错
    * @description [纠错块,(块数量,纠错码)]
    */
-  Ec: number[][]
+  readonly Ec: number[][]
 
   /**
    * 构造版本
    * @param length 内容字节数
    * @param level 纠错等级
-   *   @enum 0 L 7%
-   *   @enum 1 M 15%
-   *   @enum 2 Q 25%
-   *   @enum 3 H 30%
+   *   0 L 7%
+   *   1 M 15%
+   *   2 Q 25%
+   *   3 H 30%
    * @param mode 编码模式
-   *   @enum 0 NUMERIC 数字0-9
-   *   @enum 1 ALPHANUMERIC 数字0-9、大写字母A-Z、符号(空格)$%*+-./:
-   *   @enum 2 2 BYTE(ISO-8859-1)
-   *   @enum 3 BYTE(UTF-8)
+   *   0 NUMERIC 数字0-9
+   *   1 ALPHANUMERIC 数字0-9、大写字母A-Z、符号(空格)$%*+-./:
+   *   2 2 BYTE(ISO-8859-1)
+   *   3 BYTE(UTF-8)
    * @param versionNumber 版本号(默认最小版本)
-   *   @enum [1,40]
+   *   [1,40]
    */
   constructor(length: number, level: number, mode: number, versionNumber?: number) {
     // 最小版本号
@@ -83,12 +83,14 @@ class Version {
     if (this.VersionNumber == 0) {
       throw new Error("内容过长！最大版本号 40 也无法容下！请使用较低 纠错等级 或 减少内容！");
     }
-    if (versionNumber < 1 || versionNumber > 40) {
-      throw new Error("版本号 " + versionNumber + " 不合法！应为 [1,40]");
-    } else if (this.VersionNumber > versionNumber) {
-      throw new Error("版本号 " + versionNumber + " 太小！最小为 " + this.VersionNumber);
-    } else if (typeof versionNumber !== "undefined") {
-      this.VersionNumber = versionNumber;
+    if (typeof versionNumber != "undefined") {
+      if (versionNumber < 1 || versionNumber > 40) {
+        throw new Error("版本号 " + versionNumber + " 不合法！应为 [1,40]");
+      } else if (this.VersionNumber > versionNumber) {
+        throw new Error("版本号 " + versionNumber + " 太小！最小为 " + this.VersionNumber);
+      } else {
+        this.VersionNumber = versionNumber;
+      }
     }
     // `内容字节数`bit数
     switch (mode) {
@@ -119,6 +121,7 @@ class Version {
     this.DataAndEcBits = DATA_AND_EC_BITS[this.VersionNumber - 1];
     this.Ec = EC[this.VersionNumber - 1][level];
   }
+
 }
 
 /**
@@ -560,6 +563,5 @@ const EC: number[][][][] =
       [[20, 15], [61, 16]],
     ],
   ]
-let a = new Version(100, 0, 0, 3);
-console.log(a)
-// export {Version}
+
+export {Version}
