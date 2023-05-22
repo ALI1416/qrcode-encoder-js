@@ -24,7 +24,7 @@ const ExpTable: number[] = []
 /**
  * 对数表
  */
-const LogTable: number[] = []
+const LogTable: number[] = [0]
 
 // 初始化指数表和对数表
 let x = 1;

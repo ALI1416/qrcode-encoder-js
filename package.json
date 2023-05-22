@@ -11,7 +11,9 @@
       "email": "ali-k@foxmail.com"
     }
   ],
-  "main": "index.js",
+  "main": "./lib/index-node.js",
+  "browser": "./lib/index.js",
+  "typings": "./lib/index-types.d.ts",
   "scripts": {
     "dev": "ts-node",
     "build": "tsc"

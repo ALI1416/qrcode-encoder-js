@@ -78,9 +78,8 @@ class GenericGFPoly {
       largerCoefficients = smallerCoefficients;
       smallerCoefficients = temp;
     }
-    let sumDiff = new int[largerCoefficients.length];
     let lengthDiff = largerCoefficients.length - smallerCoefficients.length;
-    Array.Copy(largerCoefficients, 0, sumDiff, 0, lengthDiff);
+    let sumDiff = largerCoefficients.slice(0, lengthDiff);
     for (let i = lengthDiff; i < largerCoefficients.length; i++) {
       sumDiff[i] = GenericGF.Addition(smallerCoefficients[i - lengthDiff], largerCoefficients[i]);
     }
@@ -98,7 +97,7 @@ class GenericGFPoly {
     let bCoefficients = other.Coefficients;
     let aLength = aCoefficients.length;
     let bLength = bCoefficients.length;
-    let product = new int[aLength + bLength - 1];
+    let product: number[] = [];
     for (let i = 0; i < aLength; i++) {
       let aCoeff = aCoefficients[i];
       for (let j = 0; j < bLength; j++) {
@@ -118,7 +117,7 @@ class GenericGFPoly {
       return Zero;
     }
     let size = this.Coefficients.length;
-    let product = new int[size + degree];
+    let product: number[] = [];
     for (let i = 0; i < size; i++) {
       product[i] = GenericGF.Multiply(this.Coefficients[i], coefficient);
     }
@@ -129,7 +128,7 @@ class GenericGFPoly {
    * 除法的余数
    */
   public RemainderOfDivide(other: GenericGFPoly): GenericGFPoly {
-    let remainder = this;
+    let remainder = new GenericGFPoly(this.Coefficients);
     let denominatorLeadingTerm = other.GetCoefficient(other.Degree);
     let inverseDenominatorLeadingTerm = GenericGF.Inverse(denominatorLeadingTerm);
     while (remainder.Degree >= other.Degree && !remainder.IsZero) {

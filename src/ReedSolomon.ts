@@ -32,7 +32,7 @@ for (let i = 1; i < 69; i++) {
  * @param degree 次数
  * @constructor 结果
  */
-function Encoder(coefficients: number[], degree: number): number {
+function Encoder(coefficients: number[], degree: number): number[] {
   let info = new GenericGFPoly(coefficients);
   info = info.MultiplyByMonomial(degree, 1);
   let remainder = info.RemainderOfDivide(GenericGFPolyArray[degree]);
@@ -44,8 +44,9 @@ function Encoder(coefficients: number[], degree: number): number {
   if (padding == 0) {
     return result;
   } else {
-    let resultPadding = new int[degree];
-    Array.Copy(result, 0, resultPadding, padding, length);
+    let resultPadding: number[] = new Array(padding);
+    resultPadding.fill(0);
+    resultPadding.push(...result);
     return resultPadding;
   }
 }

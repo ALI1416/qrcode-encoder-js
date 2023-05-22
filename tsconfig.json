@@ -1,14 +1,13 @@
 {
   "compilerOptions": {
-    "outDir": "dist",
-    "module": "ES6",
-    "target": "ES6",
+    "outDir": "lib",
+    "module": "CommonJS",
+    "target": "ES2015",
+    "noEmitOnError": true,
+    "lib": ["ES2015", "dom"],
     "moduleResolution": "node",
-    "lib": [
-      "ES2015",
-      "dom"
-    ],
-    "noEmitOnError": true
+    "declaration": true,
+    "removeComments": false
 
     /* Visit https://aka.ms/tsconfig to read more about this file */
 
