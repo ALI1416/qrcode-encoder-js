@@ -1,3 +1,8 @@
+lib
+package-lock.json
+qrcode-encoder.js
+qrcode-encoder.min.js
+
 # Logs
 logs
 *.log

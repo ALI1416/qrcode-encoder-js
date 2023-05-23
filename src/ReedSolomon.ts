@@ -10,10 +10,6 @@ import {GenericGFPoly} from "./GenericGFPoly";
  */
 
 /**
- * 多项式0
- */
-const Zero: GenericGFPoly = new GenericGFPoly([0]);
-/**
  * GenericGFPoly数组
  */
 const GenericGFPolyArray: GenericGFPoly[] = [];
@@ -44,11 +40,13 @@ function Encoder(coefficients: number[], degree: number): number[] {
   if (padding == 0) {
     return result;
   } else {
-    let resultPadding: number[] = new Array(padding);
-    resultPadding.fill(0);
+    let resultPadding: number[] = [];
+    for (let i = 0; i < padding; i++) {
+      resultPadding.push(0);
+    }
     resultPadding.push(...result);
     return resultPadding;
   }
 }
 
-export {Zero, Encoder}
+export {Encoder}

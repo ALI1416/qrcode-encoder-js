@@ -1,5 +1,4 @@
 import * as GenericGF from './GenericGF'
-import {Zero} from "./ReedSolomon";
 
 /**
  * 通用Galois Fields域多项式(通用伽罗华域多项式)
@@ -141,5 +140,10 @@ class GenericGFPoly {
   }
 
 }
+
+/**
+ * 多项式0
+ */
+const Zero: GenericGFPoly = new GenericGFPoly([0]);
 
 export {GenericGFPoly}
