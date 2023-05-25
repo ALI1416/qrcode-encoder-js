@@ -13,11 +13,11 @@ class MaskPattern {
    * 模板列表
    * @description 0白 1黑
    */
-  readonly Patterns: number[][][];
+  readonly Patterns: number[][][] = [];
   /**
    * 惩戒分列表
    */
-  readonly Penalties: number[];
+  readonly Penalties: number[] = [];
   /**
    * 最好的模板下标
    */
@@ -54,7 +54,7 @@ class MaskPattern {
       this.Penalties[i] = MaskPenaltyRule(pattern, dimension);
     }
     // 找到最好的模板
-    let minPenalty = Number.MIN_VALUE;
+    let minPenalty = Number.MAX_VALUE;
     this.Best = -1;
     for (let i = 0; i < 8; i++) {
       if (this.Penalties[i] < minPenalty) {

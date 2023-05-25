@@ -1,13 +1,11 @@
 {
   "compilerOptions": {
     "outDir": "lib",
-    "module": "CommonJS",
-    "target": "ES2015",
-    "noEmitOnError": true,
-    "lib": ["ES2015", "dom"],
-    "moduleResolution": "node",
+    "module": "ESNext",
+    "target": "ESNext",
+    "moduleResolution": "Node",
+    "strict": true,
     "declaration": true,
-    "removeComments": false
 
     /* Visit https://aka.ms/tsconfig to read more about this file */
 

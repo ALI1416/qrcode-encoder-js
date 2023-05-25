@@ -98,9 +98,9 @@ class GenericGFPoly {
     let bLength = bCoefficients.length;
     let product: number[] = [];
     for (let i = 0; i < aLength; i++) {
-      let aCoeff = aCoefficients[i];
+      let aCoefficient = aCoefficients[i];
       for (let j = 0; j < bLength; j++) {
-        product[i + j] = GenericGF.Addition(product[i + j], GenericGF.Multiply(aCoeff, bCoefficients[j]));
+        product[i + j] = GenericGF.Addition(product[i + j], GenericGF.Multiply(aCoefficient, bCoefficients[j]));
       }
     }
     return new GenericGFPoly(product);
@@ -119,6 +119,9 @@ class GenericGFPoly {
     let product: number[] = [];
     for (let i = 0; i < size; i++) {
       product[i] = GenericGF.Multiply(this.Coefficients[i], coefficient);
+    }
+    for (let i = 0; i < degree; i++) {
+      product.push(0);
     }
     return new GenericGFPoly(product);
   }

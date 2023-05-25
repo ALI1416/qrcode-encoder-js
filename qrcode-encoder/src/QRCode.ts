@@ -83,7 +83,6 @@ class QRCode {
     // 版本
     this.Version = new Version(contentBytes.length, level, mode, versionNumber);
     this.VersionNumber = this.Version.VersionNumber;
-    console.log(this)
     // 数据bits
     let dataBits: boolean[] = [];
     // 填充数据
@@ -109,7 +108,6 @@ class QRCode {
         break;
       }
     }
-
     /* 纠错 */
     let ec: number[][] = this.Version.Ec;
     // 数据块数 或 纠错块数
@@ -139,11 +137,11 @@ class QRCode {
 
     /* 交叉数据和纠错 */
     let dataAndEcBits: boolean[] = [];
-    let dataBlockMaxBytes = dataBlocks[blocks - 1].Length;
+    let dataBlockMaxBytes = dataBlocks[blocks - 1].length;
     let dataAndEcBitPtr = 0;
     for (let i = 0; i < dataBlockMaxBytes; i++) {
       for (let j = 0; j < blocks; j++) {
-        if (dataBlocks[j].Length > i) {
+        if (dataBlocks[j].length > i) {
           QRCodeUtils.AddBits(dataAndEcBits, dataAndEcBitPtr, dataBlocks[j][i], 8);
           dataAndEcBitPtr += 8;
         }
@@ -346,11 +344,15 @@ function TerminatorAndPadding(data: boolean[], dataBits: number, ptr: number) {
   // 如果还剩1-8bit，需要1-8bit结束符，不用补齐符
   // 如果还剩8+bit，先填充4bit结束符，再填充结束符使8bit对齐，再交替补齐符至填满
   if (dataBits - ptr > 7) {
+    let temp = ptr;
     // 结束符(4bit)
     // 数据来源 ISO/IEC 18004-2015 -> 7.4.9
     ptr += 4;
     // 结束符(8bit对齐)
-    ptr = (((ptr - 1) / 8) + 1) * 8;
+    ptr = ((Math.floor((ptr - 1) / 8)) + 1) * 8;
+    for (let i = 0; i < ptr - temp; i++) {
+      data.push(false);
+    }
     // 补齐符 交替0b11101100=0xEC和0b00010001=0x11至填满
     // 数据来源 ISO/IEC 18004-2015 -> 7.4.10
     let count = (dataBits - ptr) / 8;
@@ -360,7 +362,6 @@ function TerminatorAndPadding(data: boolean[], dataBits: number, ptr: number) {
       } else {
         data.push(...NUMBER_0x11_8BITS)
       }
-      ptr += 8;
     }
   }
 }

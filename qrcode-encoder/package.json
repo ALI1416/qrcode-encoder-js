@@ -8,8 +8,8 @@
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "scripts": {
-    "clean": "rd /s/q lib & del qrcode-encoder.js & del qrcode-encoder.min.js",
-    "tsc": "tsc --removeComments",
+    "clean": "rd /s/q dist & rd /s/q lib",
+    "tsc": "tsc",
     "rollup": "rollup -c --bundleConfigAsCjs",
     "dev": "npm run clean && npm run tsc && npm run rollup",
     "build": "npm run compile"
@@ -29,6 +29,7 @@
   },
   "homepage": "https://github.com/ALI1416/qrcode-encoder-js",
   "devDependencies": {
+    "@rollup/plugin-babel": "^6.0.3",
     "rollup": "^3.23.0",
     "rollup-plugin-typescript2": "^0.34.1",
     "typescript": "^5.0.4"

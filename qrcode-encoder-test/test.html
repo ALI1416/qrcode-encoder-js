@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Title</title>
+  <script src="../qrcode-encoder/dist/qrcode-encoder.js"></script>
+</head>
+
+<body>
+<label for="content">内容：</label><input type="text" id="content" value="1234😀">
+<button id="encoder">生成二维码</button>
+<hr>
+<canvas id="canvas"></canvas>
+<script>
+  const canvas = document.getElementById("canvas");
+  const encoder = document.getElementById("encoder");
+  const content = document.getElementById("content");
+  encoder.addEventListener("click", function () {
+    let qr = new QRCode(content.value);
+    QrMatrix2Canvas(canvas, qr.Matrix, 10);
+  })
+  encoder.click();
+
+  /**
+   * 二维码boolean[][]生成Canvas
+   * @param canvas Canvas
+   * @param bytes boolean[][]
+   * @param pixelSize 像素尺寸
+   */
+  function QrMatrix2Canvas(canvas, bytes, pixelSize) {
+    let length = bytes.length;
+    let size = (length + 2) * pixelSize;
+    canvas.width = canvas.height = size;
+    canvas.style.width = canvas.style.height = size + "px";
+    let ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, size, size);
+    for (let x = 0; x < length; x++) {
+      for (let y = 0; y < length; y++) {
+        if (bytes[x][y]) {
+          ctx.fillRect((x + 1) * pixelSize, (y + 1) * pixelSize, pixelSize, pixelSize);
+        }
+      }
+    }
+  }
+</script>
+</body>
+
+</html>

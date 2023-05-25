@@ -18,9 +18,7 @@ function Convert(bytes: number[][], dimension: number): boolean[][] {
   for (let i = 0; i < dimension; i++) {
     data.push([]);
     for (let j = 0; j < dimension; j++) {
-      if (bytes[i][j] == 1) {
-        data[i][j] = true;
-      }
+      data[i][j] = (bytes[i][j] == 1);
     }
   }
   return data;
