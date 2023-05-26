@@ -11,7 +11,7 @@
     "clean": "rd /s/q dist & rd /s/q lib",
     "tsc": "tsc",
     "rollup": "rollup -c --bundleConfigAsCjs",
-    "dev": "npm run clean && npm run tsc && npm run rollup",
+    "dev": "npm run clean & npm run tsc & npm run rollup",
     "build": "npm run compile"
   },
   "private": false,

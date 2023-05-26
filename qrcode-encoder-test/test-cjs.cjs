@@ -1,4 +1,4 @@
-// node test.cjs
+// node test-cjs.cjs
 let QRCode = require("../qrcode-encoder/dist/qrcode-encoder");
 let content = "1234😀";
 let qr = new QRCode(content);

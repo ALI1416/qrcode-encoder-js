@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Title</title>
+  <script src="../qrcode-encoder/dist/qrcode-encoder.js"></script>
+</head>
+
+<body>
+<label for="content">内容：</label><input type="text" id="content" value="1234😀"><br>
+<label for="level">纠错等级：</label><input type="number" min="0" max="3" id="level"><br>
+<label for="mode">编码模式：</label><input type="number" min="0" max="3" id="mode"><br>
+<label for="versionNumber">版本号：</label><input type="number" min="1" max="40" id="versionNumber"><br>
+<button id="encoder">生成二维码</button>
+<p id="tip"></p>
+<hr>
+<canvas id="canvas"></canvas>
+<script>
+  const canvas = document.getElementById("canvas");
+  const content = document.getElementById("content");
+  const level = document.getElementById("level");
+  const mode = document.getElementById("mode");
+  const versionNumber = document.getElementById("versionNumber");
+  const encoder = document.getElementById("encoder");
+  const tip = document.getElementById("tip");
+  encoder.addEventListener("click", function () {
+    let contentValue = content.value;
+    let levelValue = level.value === "" ? undefined : level.value;
+    let modeValue = mode.value === "" ? undefined : mode.value;
+    let versionNumberValue = versionNumber.value === "" ? undefined : versionNumber.value;
+    tip.innerText = "内容：" + contentValue + "\n纠错等级：" + levelValue + "\n编码模式：" + modeValue + "\n版本号：" + versionNumberValue;
+    try {
+      let qr = new QRCode(contentValue, levelValue, modeValue, versionNumberValue);
+      QrMatrix2Canvas(canvas, qr.Matrix, 10);
+    } catch (e) {
+      tip.innerText += "\n" + e;
+    }
+  })
+  encoder.click();
+
+  /**
+   * 二维码boolean[][]生成Canvas
+   * @param canvas Canvas
+   * @param bytes boolean[][]
+   * @param pixelSize 像素尺寸
+   */
+  function QrMatrix2Canvas(canvas, bytes, pixelSize) {
+    let length = bytes.length;
+    let size = (length + 2) * pixelSize;
+    canvas.width = canvas.height = size;
+    canvas.style.width = canvas.style.height = size + "px";
+    let ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, size, size);
+    for (let x = 0; x < length; x++) {
+      for (let y = 0; y < length; y++) {
+        if (bytes[x][y]) {
+          ctx.fillRect((x + 1) * pixelSize, (y + 1) * pixelSize, pixelSize, pixelSize);
+        }
+      }
+    }
+  }
+</script>
+</body>
+
+</html>

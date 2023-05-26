@@ -52,7 +52,7 @@ class QRCode {
    * @param mode 编码模式
    *   0 NUMERIC 数字0-9
    *   1 ALPHANUMERIC 数字0-9、大写字母A-Z、符号(空格)$%*+-./:
-   *   2 2 BYTE(ISO-8859-1)
+   *   2 BYTE(ISO-8859-1)
    *   3 BYTE(UTF-8)
    * @param versionNumber 版本号(默认最小版本)
    *   [1,40]
