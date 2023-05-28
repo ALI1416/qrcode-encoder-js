@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@ali1416/qrcode-encoder": "^1.0.0",
+    "@ali1416/qrcode-encoder": "^1.0.1",
     "vue": "^3.2.47"
   },
   "devDependencies": {
