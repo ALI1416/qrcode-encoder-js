@@ -9,12 +9,10 @@
   "types": "./lib/index.d.ts",
   "scripts": {
     "clean": "rd /s/q dist & rd /s/q lib",
-    "clean:linux": "rm -rf dist & rm -rf lib",
     "tsc": "tsc",
     "rollup": "rollup -c --bundleConfigAsCjs",
     "banner": "node banner.js",
-    "build": "npm run clean & npm run tsc & npm run rollup & npm run banner",
-    "build:linux": "npm run clean:linux & npm run tsc & npm run rollup & npm run banner"
+    "build": "npm run clean & npm run tsc & npm run rollup & npm run banner"
   },
   "author": {
     "name": "ali",
@@ -24,7 +22,8 @@
     "dist",
     "lib",
     "package.json",
-    "README.md"
+    "README.md",
+    "LICENSE"
   ],
   "license": "Apache-2.0",
   "homepage": "https://github.com/ALI1416/qrcode-encoder-js",

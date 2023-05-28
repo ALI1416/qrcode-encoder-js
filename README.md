@@ -112,31 +112,16 @@ function QrMatrix2SvgPath(bytes, pixelSize) {
 }
 ```
 
-更多请见[测试](./test/)
+更多请见[测试](./test)
 
 ## 构建项目
-
-### 安装依赖
 
 ```sh
 npm install -g ts-node
 npm install -g typescript
 npm install -g rollup
 npm install
-```
-
-### 构建
-
-#### Windows系统
-
-```sh
 npm run build
-```
-
-#### Linux系统
-
-```sh
-npm run build:linux
 ```
 
 ## 更新日志
