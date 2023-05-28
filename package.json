@@ -1,0 +1,47 @@
+{
+  "name": "@ali1416/qrcode-encoder",
+  "version": "1.0.1",
+  "description": "二维码生成器js版",
+  "keywords": [
+    "qrcode"
+  ],
+  "main": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "scripts": {
+    "clean": "rd /s/q dist & rd /s/q lib",
+    "clean:linux": "rm -rf dist & rm -rf lib",
+    "tsc": "tsc",
+    "rollup": "rollup -c --bundleConfigAsCjs",
+    "banner": "node banner.js",
+    "build": "npm run clean & npm run tsc & npm run rollup & npm run banner",
+    "build:linux": "npm run clean:linux & npm run tsc & npm run rollup & npm run banner"
+  },
+  "author": {
+    "name": "ali",
+    "email": "ali-k@foxmail.com"
+  },
+  "files": [
+    "dist",
+    "lib",
+    "package.json",
+    "README.md"
+  ],
+  "license": "Apache-2.0",
+  "homepage": "https://github.com/ALI1416/qrcode-encoder-js",
+  "bugs": "https://github.com/ALI1416/qrcode-encoder-js/issues/new",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ALI1416/qrcode-encoder-js.git"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "devDependencies": {
+    "@rollup/plugin-babel": "^6.0.3",
+    "@rollup/plugin-terser": "^0.4.3",
+    "rollup-plugin-typescript2": "^0.34.1"
+  }
+}

@@ -1,6 +1,6 @@
 <script setup>
 import {onMounted, ref} from 'vue'
-import QRCode from "../../../qrcode-encoder"
+import QRCode from "@ali1416/qrcode-encoder"
 
 const content = ref("1234😀");
 const level = ref();

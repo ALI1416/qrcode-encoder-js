@@ -53,8 +53,7 @@ class GenericGFPoly {
   /**
    *
    * @param degree 获取多项式中`次数`的系数
-   * @constructor 次数
-   * @return 系数
+   * @return number 系数
    */
   public GetCoefficient(degree: number): number {
     return this.Coefficients[this.Coefficients.length - 1 - degree];

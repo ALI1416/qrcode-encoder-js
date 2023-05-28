@@ -6,7 +6,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Title</title>
-  <script src="../qrcode-encoder/dist/qrcode-encoder.js"></script>
+  <!--<script src="../dist/qrcode-encoder.js"></script>-->
+  <script src="../dist/qrcode-encoder.min.js"></script>
 </head>
 
 <body>
@@ -36,6 +37,7 @@
       let qr = new QRCode(contentValue, levelValue, modeValue, versionNumberValue);
       QrMatrix2Canvas(canvas, qr.Matrix, 10);
     } catch (e) {
+      console.error(e);
       tip.innerText += "\n" + e;
     }
   })

@@ -26,7 +26,7 @@ for (let i = 1; i < 69; i++) {
  * 编码
  * @param coefficients 系数
  * @param degree 次数
- * @constructor 结果
+ * @return number[]
  */
 function Encoder(coefficients: number[], degree: number): number[] {
   let info = new GenericGFPoly(coefficients);

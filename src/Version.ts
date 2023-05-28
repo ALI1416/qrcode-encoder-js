@@ -41,15 +41,15 @@ class Version {
    * 构造版本
    * @param length 内容字节数
    * @param level 纠错等级
-   *   0 L 7%
-   *   1 M 15%
-   *   2 Q 25%
-   *   3 H 30%
+   *   <0 L 7%>
+   *   <1 M 15%>
+   *   <2 Q 25%>
+   *   <3 H 30%>
    * @param mode 编码模式
-   *   0 NUMERIC 数字0-9
-   *   1 ALPHANUMERIC 数字0-9、大写字母A-Z、符号(空格)$%*+-./:
-   *   2 2 BYTE(ISO-8859-1)
-   *   3 BYTE(UTF-8)
+   *   <0 NUMERIC 数字0-9>
+   *   <1 ALPHANUMERIC 数字0-9、大写字母A-Z、符号(空格)$%*+-./:>
+   *   <2 BYTE(ISO-8859-1)>
+   *   <3 BYTE(UTF-8)>
    * @param versionNumber 版本号(默认最小版本)
    *   [1,40]
    */
@@ -128,7 +128,7 @@ class Version {
  * 获取编码模式为NUMERIC的版本号
  * @param length 内容字节数
  * @param level 纠错等级
- * @return 版本号
+ * @return number 版本号
  */
 function ModeNumeric(length: number, level: number): number {
   // `内容字节数`bit数 1-9版本10bit
@@ -158,7 +158,7 @@ function ModeNumeric(length: number, level: number): number {
 /**
  * 获取编码模式为NUMERIC的最大字符长度
  * @param maxBits 最大bit数
- * @return 最大字符长度
+ * @return number 最大字符长度
  */
 function ModeNumericMaxLength(maxBits: number): number {
   // 3个字符10bit 2个字符7bit 1个字符4bit
@@ -176,7 +176,7 @@ function ModeNumericMaxLength(maxBits: number): number {
  * 获取编码模式为ALPHANUMERIC的版本号
  * @param length 内容字节数
  * @param level 纠错等级
- * @return 版本号
+ * @return number 版本号
  */
 function ModeAlphaNumeric(length: number, level: number): number {
   // `内容字节数`bit数 1-9版本9bit
@@ -206,7 +206,7 @@ function ModeAlphaNumeric(length: number, level: number): number {
 /**
  * 获取编码模式为ALPHANUMERIC的最大字符长度
  * @param maxBits 最大bit数
- * @return 最大字符长度
+ * @return number 最大字符长度
  */
 function ModeAlphaNumericMaxLength(maxBits: number): number {
   // 2个字符11bit 1个字符6bit
@@ -222,7 +222,7 @@ function ModeAlphaNumericMaxLength(maxBits: number): number {
  * 获取编码模式为BYTE的版本号
  * @param length 内容字节数
  * @param level 纠错等级
- * @return 版本号
+ * @return number 版本号
  */
 function ModeByte(length: number, level: number): number {
   // `内容字节数`bit数 1-9版本8bit

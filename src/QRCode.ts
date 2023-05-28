@@ -45,15 +45,15 @@ class QRCode {
    * 构造二维码
    * @param content 内容
    * @param level 纠错等级
-   *   0 L 7%
-   *   1 M 15%
-   *   2 Q 25%
-   *   3 H 30%
+   *   <0 L 7%>
+   *   <1 M 15%>
+   *   <2 Q 25%>
+   *   <3 H 30%>
    * @param mode 编码模式
-   *   0 NUMERIC 数字0-9
-   *   1 ALPHANUMERIC 数字0-9、大写字母A-Z、符号(空格)$%*+-./:
-   *   2 BYTE(ISO-8859-1)
-   *   3 BYTE(UTF-8)
+   *   <0 NUMERIC 数字0-9>
+   *   <1 ALPHANUMERIC 数字0-9、大写字母A-Z、符号(空格)$%*+-./:>
+   *   <2 BYTE(ISO-8859-1)>
+   *   <3 BYTE(UTF-8)>
    * @param versionNumber 版本号(默认最小版本)
    *   [1,40]
    */
@@ -366,6 +366,15 @@ function TerminatorAndPadding(data: boolean[], dataBits: number, ptr: number) {
   }
 }
 
+/**
+ * 探测编码模式
+ * @param content 内容
+ * @return number 编码模式
+ *   <0 NUMERIC 数字0-9>
+ *   <1 ALPHANUMERIC 数字0-9、大写字母A-Z、符号(空格)$%*+-./:>
+ *   <2 BYTE(ISO-8859-1)>
+ *   <3 BYTE(UTF-8)>
+ */
 function DetectionMode(content: string): number {
   let length = content.length;
   // 为了与ZXing结果保持一致，长度为0时使用BYTE(ISO-8859-1)编码

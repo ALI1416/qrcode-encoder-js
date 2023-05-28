@@ -41,7 +41,7 @@ function AddBits(bits: boolean[], pos: number, value: number, numberBits: number
  * 获取bit数组
  * @param value 值
  * @param numberBits 添加bit个数
- * @return bit数组
+ * @return boolean[] bit数组
  */
 function GetBits(value: number, numberBits: number): boolean[] {
   let bits: boolean[] = [];
@@ -56,7 +56,7 @@ function GetBits(value: number, numberBits: number): boolean[] {
  * @param data 数据
  * @param offset 起始位置
  * @param bytes 字节长度
- * @return 字节数组
+ * @return number[] 字节数组
  */
 function GetBytes(data: boolean[], offset: number, bytes: number): number[] {
   let result: number[] = [];
@@ -79,7 +79,7 @@ function GetBytes(data: boolean[], offset: number, bytes: number): number[] {
 /**
  * 获取字符串的字节数组
  * @param content 字符串
- * @return 字节数组
+ * @return number[] 字节数组
  */
 function GetUtf8Bytes(content: string): number[] {
   let code = encodeURIComponent(content);
