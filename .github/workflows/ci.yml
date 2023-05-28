@@ -35,5 +35,8 @@ jobs:
       - name: install global dependency rollup
         run: npm install -g rollup
 
+      - name: install dependency
+        run: npm install
+
       - name: Build
         run: npm run build:linux
