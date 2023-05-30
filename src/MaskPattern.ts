@@ -34,6 +34,7 @@ class MaskPattern {
    *   <3 H 30%>
    */
   constructor(data: boolean[], version: Version, level: number) {
+    let bestValue = -1;
     let dimension = version.Dimension;
     let versionNumber = version.VersionNumber;
     for (let i = 0; i < 8; i++) {
@@ -55,13 +56,13 @@ class MaskPattern {
     }
     // 找到最好的模板
     let minPenalty = Number.MAX_VALUE;
-    this.Best = -1;
     for (let i = 0; i < 8; i++) {
       if (this.Penalties[i] < minPenalty) {
         minPenalty = this.Penalties[i];
-        this.Best = i;
+        bestValue = i;
       }
     }
+    this.Best = bestValue;
   }
 }
 

@@ -1,4 +1,4 @@
-# qrcode-encoder-js 二维码生成器js版
+# qrcode-encoder-js 二维码生成器JavaScript版
 
 [![License](https://img.shields.io/github/license/ali1416/qrcode-encoder-js?label=License)](https://www.apache.org/licenses/LICENSE-2.0.txt)
 [![Node Support](https://img.shields.io/badge/Node-14+-green)](https://nodejs.org/)

@@ -58,17 +58,21 @@ class QRCode {
    *   [1,40]
    */
   constructor(content: string, level?: number, mode?: number, versionNumber?: number) {
+    let levelValue: number;
+    let modeValue: number;
     /* 数据 */
     // 纠错等级
     if (typeof level == "undefined") {
-      level = 0;
+      levelValue = 0;
     } else if (level < 0 || level > 3) {
       throw new Error("纠错等级 " + level + " 不合法！应为 [0,3]");
+    } else {
+      levelValue = level;
     }
-    this.Level = level;
+    this.Level = Number(levelValue);
     // 编码模式
     if (typeof mode == "undefined") {
-      mode = DetectionMode(content);
+      modeValue = DetectionMode(content);
     } else if (mode < 0 || mode > 3) {
       throw new Error("编码模式 " + mode + " 不合法！应为 [0,3]");
     } else {
@@ -76,17 +80,18 @@ class QRCode {
       if (mode < detectionMode) {
         throw new Error("编码模式 " + mode + " 太小！最小为 " + detectionMode);
       }
+      modeValue = mode;
     }
-    this.Mode = mode;
+    this.Mode = Number(modeValue);
     // 内容bytes
     let contentBytes = QRCodeUtils.GetUtf8Bytes(content);
     // 版本
-    this.Version = new Version(contentBytes.length, level, mode, versionNumber);
+    this.Version = new Version(contentBytes.length, this.Level, this.Mode, versionNumber);
     this.VersionNumber = this.Version.VersionNumber;
     // 数据bits
     let dataBits: boolean[] = [];
     // 填充数据
-    switch (mode) {
+    switch (this.Mode) {
       // 填充编码模式为NUMERIC的数据
       case 0: {
         ModeNumbers(dataBits, contentBytes, this.Version);
@@ -155,7 +160,7 @@ class QRCode {
     }
 
     /* 构造掩模模板 */
-    this.MaskPattern = new MaskPattern(dataAndEcBits, this.Version, level);
+    this.MaskPattern = new MaskPattern(dataAndEcBits, this.Version, this.Level);
     this.MaskPatternNumber = this.MaskPattern.Best;
     this.Matrix = QRCodeUtils.Convert(this.MaskPattern.Patterns[this.MaskPatternNumber], this.Version.Dimension);
   }

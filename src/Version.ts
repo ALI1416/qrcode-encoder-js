@@ -54,44 +54,46 @@ class Version {
    *   [1,40]
    */
   constructor(length: number, level: number, mode: number, versionNumber?: number) {
+    let versionNumberValue;
     // 最小版本号
     switch (mode) {
       // NUMERIC 数字0-9
       case 0: {
-        this.VersionNumber = ModeNumeric(length, level) + 1;
+        versionNumberValue = ModeNumeric(length, level) + 1;
         break;
       }
       // ALPHANUMERIC 数字0-9、大写字母A-Z、符号(空格)$%*+-./:
       case 1: {
-        this.VersionNumber = ModeAlphaNumeric(length, level) + 1;
+        versionNumberValue = ModeAlphaNumeric(length, level) + 1;
         break;
       }
       // BYTE(ISO-8859-1)
       case 2: {
-        this.VersionNumber = ModeByte(length, level) + 1;
+        versionNumberValue = ModeByte(length, level) + 1;
         break;
       }
       // BYTE(UTF-8)
       default: {
         // 相比ISO-8859-1多1字节(不需要补齐符的情况下)
         // ECI模式指示符(4bit)+ECI指定符(8bit)-结束符(4bit)=1字节
-        this.VersionNumber = ModeByte(length + 1, level) + 1;
+        versionNumberValue = ModeByte(length + 1, level) + 1;
         break;
       }
     }
     // 指定版本号
-    if (this.VersionNumber == 0) {
+    if (versionNumberValue == 0) {
       throw new Error("内容过长！最大版本号 40 也无法容下！请使用较低 纠错等级 或 减少内容！");
     }
     if (typeof versionNumber != "undefined") {
       if (versionNumber < 1 || versionNumber > 40) {
         throw new Error("版本号 " + versionNumber + " 不合法！应为 [1,40]");
-      } else if (this.VersionNumber > versionNumber) {
-        throw new Error("版本号 " + versionNumber + " 太小！最小为 " + this.VersionNumber);
+      } else if (versionNumberValue > versionNumber) {
+        throw new Error("版本号 " + versionNumber + " 太小！最小为 " + versionNumberValue);
       } else {
-        this.VersionNumber = versionNumber;
+        versionNumberValue = Number(versionNumber);
       }
     }
+    this.VersionNumber = versionNumberValue;
     // `内容字节数`bit数
     switch (mode) {
       // NUMERIC

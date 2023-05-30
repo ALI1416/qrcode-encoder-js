@@ -6,8 +6,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Title</title>
-  <!--<script src="../dist/qrcode-encoder.js"></script>-->
-  <script src="../dist/qrcode-encoder.min.js"></script>
+  <script src="../dist/qrcode-encoder.js"></script>
+  <!-- <script src="../dist/qrcode-encoder.min.js"></script> -->
 </head>
 
 <body>
@@ -27,14 +27,15 @@
   const versionNumber = document.getElementById("versionNumber");
   const encoder = document.getElementById("encoder");
   const tip = document.getElementById("tip");
+  let qr;
   encoder.addEventListener("click", function () {
     let contentValue = content.value;
     let levelValue = level.value === "" ? undefined : level.value;
     let modeValue = mode.value === "" ? undefined : mode.value;
     let versionNumberValue = versionNumber.value === "" ? undefined : versionNumber.value;
-    tip.innerText = "内容：" + contentValue + "\n纠错等级：" + levelValue + "\n编码模式：" + modeValue + "\n版本号：" + versionNumberValue;
     try {
-      let qr = new QRCode(contentValue, levelValue, modeValue, versionNumberValue);
+      qr = new QRCode(contentValue, levelValue, modeValue, versionNumberValue);
+      tip.innerText = "内容：" + contentValue + "\n纠错等级：" + qr.Level + "\n编码模式：" + qr.Mode + "\n版本号：" + qr.VersionNumber;
       QrMatrix2Canvas(canvas, qr.Matrix, 10);
     } catch (e) {
       console.error(e);

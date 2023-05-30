@@ -1,7 +1,7 @@
 {
   "name": "@ali1416/qrcode-encoder",
   "version": "1.0.1",
-  "description": "二维码生成器js版",
+  "description": "二维码生成器JavaScript版",
   "keywords": [
     "qrcode"
   ],
