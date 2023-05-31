@@ -65,7 +65,7 @@ function Inverse(a: number): number {
  * 乘法
  */
 function Multiply(a: number, b: number): number {
-  if (a == 0 || b == 0) {
+  if (a === 0 || b === 0) {
     return 0;
   }
   return ExpTable[(LogTable[a] + LogTable[b]) % (DIMENSION - 1)];

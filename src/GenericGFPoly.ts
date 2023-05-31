@@ -29,14 +29,14 @@ class GenericGFPoly {
   constructor(coefficients: number[]) {
     let coefficientsLength = coefficients.length
     // 常数项为0
-    if (coefficients[0] == 0) {
+    if (coefficients[0] === 0) {
       // 查找第一个非0的下标
       let firstNonZero = 1;
-      while (firstNonZero < coefficientsLength && coefficients[firstNonZero] == 0) {
+      while (firstNonZero < coefficientsLength && coefficients[firstNonZero] === 0) {
         firstNonZero++;
       }
       // 全为0
-      if (firstNonZero == coefficientsLength) {
+      if (firstNonZero === coefficientsLength) {
         // 该多项式为0
         this.Coefficients = [0];
       } else {
@@ -47,7 +47,7 @@ class GenericGFPoly {
       this.Coefficients = coefficients;
     }
     this.Degree = this.Coefficients.length - 1;
-    this.IsZero = this.Coefficients[0] == 0;
+    this.IsZero = this.Coefficients[0] === 0;
   }
 
   /**
@@ -111,7 +111,7 @@ class GenericGFPoly {
    * @param coefficient 系数
    */
   public MultiplyByMonomial(degree: number, coefficient: number): GenericGFPoly {
-    if (coefficient == 0) {
+    if (coefficient === 0) {
       return Zero;
     }
     let size = this.Coefficients.length;

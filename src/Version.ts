@@ -54,7 +54,7 @@ class Version {
    *   [1,40]
    */
   constructor(length: number, level: number, mode: number, versionNumber?: number) {
-    let versionNumberValue;
+    let versionNumberValue: number;
     // 最小版本号
     switch (mode) {
       // NUMERIC 数字0-9
@@ -81,7 +81,7 @@ class Version {
       }
     }
     // 指定版本号
-    if (versionNumberValue == 0) {
+    if (versionNumberValue === 0) {
       throw new Error("内容过长！最大版本号 40 也无法容下！请使用较低 纠错等级 或 减少内容！");
     }
     if (typeof versionNumber != "undefined") {

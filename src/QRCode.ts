@@ -266,7 +266,7 @@ function ModeAlphaNumeric(dataBits: boolean[], contentBytes: number[], version: 
     QRCodeUtils.AddBits(dataBits, ptr, ALPHA_NUMERIC_TABLE[contentBytes[i]] * 45 + ALPHA_NUMERIC_TABLE[contentBytes[i + 1]], 11);
     ptr += 11;
   }
-  if (contentLength % 2 == 1) {
+  if (contentLength % 2 === 1) {
     QRCodeUtils.AddBits(dataBits, ptr, ALPHA_NUMERIC_TABLE[contentBytes[contentLength - 1]], 6);
     ptr += 6;
   }
@@ -362,7 +362,7 @@ function TerminatorAndPadding(data: boolean[], dataBits: number, ptr: number) {
     // 数据来源 ISO/IEC 18004-2015 -> 7.4.10
     let count = (dataBits - ptr) / 8;
     for (let i = 0; i < count; i++) {
-      if (i % 2 == 0) {
+      if (i % 2 === 0) {
         data.push(...NUMBER_0xEC_8BITS)
       } else {
         data.push(...NUMBER_0x11_8BITS)
@@ -383,7 +383,7 @@ function TerminatorAndPadding(data: boolean[], dataBits: number, ptr: number) {
 function DetectionMode(content: string): number {
   let length = content.length;
   // 为了与ZXing结果保持一致，长度为0时使用BYTE(ISO-8859-1)编码
-  if (length == 0) {
+  if (length === 0) {
     return 2;
   }
   // BYTE(UTF-8)

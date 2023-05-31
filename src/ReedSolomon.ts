@@ -37,7 +37,7 @@ function Encoder(coefficients: number[], degree: number): number[] {
   let length = result.length;
   // 长度不够前面补0
   let padding = degree - length;
-  if (padding == 0) {
+  if (padding === 0) {
     return result;
   } else {
     let resultPadding: number[] = [];

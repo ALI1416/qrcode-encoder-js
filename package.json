@@ -1,19 +1,17 @@
 {
   "name": "@ali1416/qrcode-encoder",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "二维码生成器JavaScript版",
-  "keywords": [
-    "qrcode"
-  ],
-  "main": "./lib/index.js",
-  "types": "./lib/index.d.ts",
   "scripts": {
-    "clean": "rd /s/q dist & rd /s/q lib",
+    "clean": "rd /s/q dist & rd /s/q lib & rd /s/q types",
     "tsc": "tsc",
     "rollup": "rollup -c --bundleConfigAsCjs",
     "banner": "node banner.js",
     "build": "npm run clean & npm run tsc & npm run rollup & npm run banner"
   },
+  "main": "./dist/index.js",
+  "module": "./lib/index.js",
+  "types": "./types/index.d.ts",
   "author": {
     "name": "ali",
     "email": "ali-k@foxmail.com"
@@ -21,9 +19,14 @@
   "files": [
     "dist",
     "lib",
+    "src",
+    "types",
     "package.json",
     "README.md",
     "LICENSE"
+  ],
+  "keywords": [
+    "qrcode"
   ],
   "license": "Apache-2.0",
   "homepage": "https://github.com/ALI1416/qrcode-encoder-js",

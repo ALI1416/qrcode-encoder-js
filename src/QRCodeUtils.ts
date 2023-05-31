@@ -18,7 +18,7 @@ function Convert(bytes: number[][], dimension: number): boolean[][] {
   for (let i = 0; i < dimension; i++) {
     data.push([]);
     for (let j = 0; j < dimension; j++) {
-      data[i][j] = (bytes[i][j] == 1);
+      data[i][j] = (bytes[i][j] === 1);
     }
   }
   return data;
@@ -33,7 +33,7 @@ function Convert(bytes: number[][], dimension: number): boolean[][] {
  */
 function AddBits(bits: boolean[], pos: number, value: number, numberBits: number) {
   for (let i = 0; i < numberBits; i++) {
-    bits[pos + i] = (value & (1 << (numberBits - i - 1))) != 0;
+    bits[pos + i] = (value & (1 << (numberBits - i - 1))) !== 0;
   }
 }
 
@@ -46,7 +46,7 @@ function AddBits(bits: boolean[], pos: number, value: number, numberBits: number
 function GetBits(value: number, numberBits: number): boolean[] {
   let bits: boolean[] = [];
   for (let i = 0; i < numberBits; i++) {
-    bits[i] = (value & (1 << (numberBits - i - 1))) != 0;
+    bits[i] = (value & (1 << (numberBits - i - 1))) !== 0;
   }
   return bits;
 }
@@ -86,7 +86,7 @@ function GetUtf8Bytes(content: string): number[] {
   let bytes = [];
   for (let i = 0; i < code.length; i++) {
     let c = code.charAt(i);
-    if (c == '%') {
+    if (c === '%') {
       bytes.push(parseInt(code.charAt(i + 1) + code.charAt(i + 2), 16));
       i += 2;
     } else {

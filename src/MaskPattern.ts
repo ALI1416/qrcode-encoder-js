@@ -197,7 +197,7 @@ function EmbedPositionAlignmentPattern(pattern: number[][], versionNumber: numbe
   for (let x = 0; x < length; x++) {
     for (let y = 0; y < length; y++) {
       // 跳过位置探测图形
-      if ((x == 0 && y == 0) || (x == 0 && y == length - 1) || (y == 0 && x == length - 1)) {
+      if ((x === 0 && y === 0) || (x === 0 && y === length - 1) || (y === 0 && x === length - 1)) {
         continue;
       }
       EmbedPositionAlignmentPattern2(pattern, coordinates[x] - 2, coordinates[y] - 2);
@@ -246,7 +246,7 @@ function EmbedFormatInfo(pattern: number[][], dimension: number, level: number, 
     let isBlack = formatInfo[14 - i] ? 1 : 0;
     // 左上角
     pattern[FORMAT_INFO_COORDINATES[i][0]][FORMAT_INFO_COORDINATES[i][1]] = isBlack;
-    let x, y;
+    let x: number, y: number;
     // 右上角
     if (i < 8) {
       x = dimension - i - 1;
@@ -300,14 +300,14 @@ function EmbedData(pattern: number[][], dimension: number, id: number, data: boo
   let y = dimension - 1;
   while (x > 0) {
     // 跳过垂直分隔符图形
-    if (x == 6) {
+    if (x === 6) {
       x -= 1;
     }
     while (y >= 0 && y < dimension) {
       for (let i = 0; i < 2; i++) {
         let xx = x - i;
         // 跳过不为空
-        if (pattern[xx][y] != 2) {
+        if (pattern[xx][y] !== 2) {
           continue;
         }
         let isBlack;
@@ -341,30 +341,30 @@ function EmbedData(pattern: number[][], dimension: number, id: number, data: boo
 function GetMaskBit(id: number, x: number, y: number): boolean {
   switch (id) {
     case 1: {
-      return (y % 2) == 0;
+      return (y % 2) === 0;
     }
     case 2: {
-      return (x % 3) == 0;
+      return (x % 3) === 0;
     }
     case 3: {
-      return ((x + y) % 3) == 0;
+      return ((x + y) % 3) === 0;
     }
     case 4: {
-      return (((y / 2) + (x / 3)) % 2) == 0;
+      return ((Math.floor(y / 2) + Math.floor(x / 3)) % 2) === 0;
     }
     case 5: {
       let temp = x * y;
-      return ((temp % 2) + (temp % 3)) == 0;
+      return ((temp % 2) + (temp % 3)) === 0;
     }
     case 6: {
       let temp = x * y;
-      return (((temp % 2) + (temp % 3)) % 2) == 0;
+      return (((temp % 2) + (temp % 3)) % 2) === 0;
     }
     case 7: {
-      return ((((x * y) % 3) + ((x + y) % 2)) % 2) == 0;
+      return ((((x * y) % 3) + ((x + y) % 2)) % 2) === 0;
     }
     default: {
-      return ((x + y) % 2) == 0;
+      return ((x + y) % 2) === 0;
     }
   }
 }
@@ -402,7 +402,7 @@ function MaskPenaltyRule1(pattern: number[][], dimension: number): number {
       let bitRow = pattern[i][j];
       let bitCol = pattern[j][i];
       // 行
-      if (bitRow == prevBitRow) {
+      if (bitRow === prevBitRow) {
         countRow++;
       } else {
         if (countRow > 4) {
@@ -412,7 +412,7 @@ function MaskPenaltyRule1(pattern: number[][], dimension: number): number {
         prevBitRow = bitRow;
       }
       // 列
-      if (bitCol == prevBitCol) {
+      if (bitCol === prevBitCol) {
         countCol++;
       } else {
         if (countCol > 4) {
@@ -449,7 +449,7 @@ function MaskPenaltyRule2(pattern: number[][], dimension: number): number {
     for (let y = 0; y < dimension - 1; y++) {
       // 2x2块
       let bit = pattern[x][y];
-      if (bit == pattern[x][y + 1] && bit == pattern[x + 1][y] && bit == pattern[x + 1][y + 1]) {
+      if (bit === pattern[x][y + 1] && bit === pattern[x + 1][y] && bit === pattern[x + 1][y + 1]) {
         penalty++;
       }
     }
@@ -475,13 +475,13 @@ function MaskPenaltyRule3(pattern: number[][], dimension: number): number {
         // 列区间[0, dimension - 6)
         y < dimension - 6 &&
         // [黑,白,黑黑黑,白,黑]序列
-        pattern[x][y] == 1 &&
-        pattern[x][y + 1] == 0 &&
-        pattern[x][y + 2] == 1 &&
-        pattern[x][y + 3] == 1 &&
-        pattern[x][y + 4] == 1 &&
-        pattern[x][y + 5] == 0 &&
-        pattern[x][y + 6] == 1 &&
+        pattern[x][y] === 1 &&
+        pattern[x][y + 1] === 0 &&
+        pattern[x][y + 2] === 1 &&
+        pattern[x][y + 3] === 1 &&
+        pattern[x][y + 4] === 1 &&
+        pattern[x][y + 5] === 0 &&
+        pattern[x][y + 6] === 1 &&
         // 左或右有4个白色
         (
           // 左有4个白色
@@ -489,19 +489,19 @@ function MaskPenaltyRule3(pattern: number[][], dimension: number): number {
             // 列区间[4,)
             y > 3 &&
             // [白白白白]序列
-            pattern[x][y - 1] == 0 &&
-            pattern[x][y - 2] == 0 &&
-            pattern[x][y - 3] == 0 &&
-            pattern[x][y - 4] == 0) ||
+            pattern[x][y - 1] === 0 &&
+            pattern[x][y - 2] === 0 &&
+            pattern[x][y - 3] === 0 &&
+            pattern[x][y - 4] === 0) ||
           // 右有4个白色
           (
             // 列区间[0, dimension - 10)
             y < dimension - 10 &&
             // [白白白白]序列
-            pattern[x][y + 7] == 0 &&
-            pattern[x][y + 8] == 0 &&
-            pattern[x][y + 9] == 0 &&
-            pattern[x][y + 10] == 0))) {
+            pattern[x][y + 7] === 0 &&
+            pattern[x][y + 8] === 0 &&
+            pattern[x][y + 9] === 0 &&
+            pattern[x][y + 10] === 0))) {
         penalty++;
       }
       // 列
@@ -509,13 +509,13 @@ function MaskPenaltyRule3(pattern: number[][], dimension: number): number {
         // 行区间[0, dimension - 6)
         x < dimension - 6 &&
         // [黑,白,黑黑黑,白,黑]序列
-        pattern[x][y] == 1 &&
-        pattern[x + 1][y] == 0 &&
-        pattern[x + 2][y] == 1 &&
-        pattern[x + 3][y] == 1 &&
-        pattern[x + 4][y] == 1 &&
-        pattern[x + 5][y] == 0 &&
-        pattern[x + 6][y] == 1 &&
+        pattern[x][y] === 1 &&
+        pattern[x + 1][y] === 0 &&
+        pattern[x + 2][y] === 1 &&
+        pattern[x + 3][y] === 1 &&
+        pattern[x + 4][y] === 1 &&
+        pattern[x + 5][y] === 0 &&
+        pattern[x + 6][y] === 1 &&
         // 上或下有4个白色
         (
           // 上有4个白色
@@ -523,19 +523,19 @@ function MaskPenaltyRule3(pattern: number[][], dimension: number): number {
             // 行区间[4,)
             x > 3 &&
             // [白白白白]序列
-            pattern[x - 1][y] == 0 &&
-            pattern[x - 2][y] == 0 &&
-            pattern[x - 3][y] == 0 &&
-            pattern[x - 4][y] == 0) ||
+            pattern[x - 1][y] === 0 &&
+            pattern[x - 2][y] === 0 &&
+            pattern[x - 3][y] === 0 &&
+            pattern[x - 4][y] === 0) ||
           // 下有4个白色
           (
             // 行区间[0, dimension - 10)
             x < dimension - 10 &&
             // [白白白白]序列
-            pattern[x + 7][y] == 0 &&
-            pattern[x + 8][y] == 0 &&
-            pattern[x + 9][y] == 0 &&
-            pattern[x + 10][y] == 0))) {
+            pattern[x + 7][y] === 0 &&
+            pattern[x + 8][y] === 0 &&
+            pattern[x + 9][y] === 0 &&
+            pattern[x + 10][y] === 0))) {
         penalty++;
       }
     }
@@ -556,7 +556,7 @@ function MaskPenaltyRule4(pattern: number[][], dimension: number): number {
   let count = 0;
   for (let x = 0; x < dimension; x++) {
     for (let y = 0; y < dimension; y++) {
-      if (pattern[x][y] == 1) {
+      if (pattern[x][y] === 1) {
         count++;
       }
     }
