@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const json = getJson('./package.json');
+let json = getJson('./package.json');
 
 let content = `/*
 * project  : ` + json.name + `

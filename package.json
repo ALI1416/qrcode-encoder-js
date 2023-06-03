@@ -3,11 +3,11 @@
   "version": "1.0.3",
   "description": "二维码生成器JavaScript版",
   "scripts": {
-    "clean": "rd /s/q dist & rd /s/q lib & rd /s/q types",
+    "clean": "node ./script/clean.js",
     "tsc": "tsc",
     "rollup": "rollup -c --bundleConfigAsCjs",
-    "banner": "node banner.js",
-    "build": "npm run clean & npm run tsc & npm run rollup & npm run banner"
+    "banner": "node ./script/banner.js",
+    "build": "npm run clean && npm run tsc && npm run rollup && npm run banner"
   },
   "main": "./dist/index.js",
   "module": "./lib/index.js",
