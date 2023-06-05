@@ -26,5 +26,8 @@ jobs:
           node-version: 14.x
           cache: 'npm'
 
+      - name: Install Dependency
+        run: npm install
+
       - name: Build
         run: npm run build
