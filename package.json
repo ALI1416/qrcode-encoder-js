@@ -40,6 +40,7 @@
     "access": "public"
   },
   "devDependencies": {
+    "@babel/core": "^7.22.1",
     "@rollup/plugin-babel": "^6.0.3",
     "@rollup/plugin-terser": "^0.4.3"
   }
