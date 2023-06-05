@@ -1,8 +1,7 @@
 // node test-js.js
-// let QRCode = require("../dist/qrcode-encoder.js");
-let QRCode = require("../dist/qrcode-encoder.min.js");
-let content = "1234😀";
-let qr = new QRCode(content);
+const QRCode = require("../dist/qrcode-encoder.js");
+const content = "1234😀";
+const qr = new QRCode(content);
 console.log(QrMatrix2SvgPath(qr.Matrix, 10));
 
 /**

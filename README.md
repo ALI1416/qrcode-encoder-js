@@ -8,11 +8,17 @@
 
 [![Node CI](https://github.com/ALI1416/qrcode-encoder-js/actions/workflows/ci.yml/badge.svg)](https://github.com/ALI1416/qrcode-encoder-js/actions/workflows/ci.yml)
 
+
 ## 简介
 
 本项目迁移自[ALI1416/QRCodeEncoder.Net](https://github.com/ali1416/QRCodeEncoder.Net)，只编写了生成器部分，并对处理逻辑进行了大量优化，构建后`qrcode-encoder.min.js`文件仅`15kb`
 
 注意：本项目不提供二维码绘制方法，如需绘制请看`使用示例`
+
+### 其他语言项目
+
+- `.Net` : [ALI1416/QRCodeEncoder.Net](https://github.com/ali1416/QRCodeEncoder.Net)
+- `Java` : [ALI1416/qrcode-encoder](https://github.com/ali1416/qrcode-encoder)
 
 ## 依赖导入
 
@@ -80,10 +86,9 @@ npm install @ali1416/qrcode-encoder@1.0.3
 
 ```js
 // node test-js.js
-// let QRCode = require("../dist/qrcode-encoder.js");
-let QRCode = require("../dist/qrcode-encoder.min.js");
-let content = "1234😀";
-let qr = new QRCode(content);
+const QRCode = require("../dist/qrcode-encoder.js");
+const content = "1234😀";
+const qr = new QRCode(content);
 console.log(QrMatrix2SvgPath(qr.Matrix, 10));
 
 /**
@@ -127,11 +132,6 @@ npm run build
 ## 更新日志
 
 [点击查看](./CHANGELOG.md)
-
-## 其他语言项目
-
-- `.Net` : [ALI1416/QRCodeEncoder.Net](https://github.com/ali1416/QRCodeEncoder.Net)
-- `Java` : [ALI1416/qrcode-encoder](https://github.com/ali1416/qrcode-encoder)
 
 ## 参考
 

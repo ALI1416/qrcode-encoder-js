@@ -3,15 +3,13 @@
   "version": "1.0.3",
   "description": "二维码生成器JavaScript版",
   "scripts": {
-    "clean": "node ./script/clean.js",
-    "tsc": "tsc",
-    "rollup": "rollup -c --bundleConfigAsCjs",
-    "banner": "node ./script/banner.js",
-    "build": "npm run clean && npm run tsc && npm run rollup && npm run banner"
+    "tsc": "npx tsc",
+    "rollup": "npx rollup -c --bundleConfigAsCjs",
+    "build": "npm run tsc && npm run rollup"
   },
-  "main": "./dist/index.js",
-  "module": "./lib/index.js",
-  "types": "./types/index.d.ts",
+  "main": "./dist/qrcode-encoder.node.js",
+  "module": "./lib/main.js",
+  "types": "./types/main.d.ts",
   "author": {
     "name": "ali",
     "email": "ali-k@foxmail.com"
@@ -43,7 +41,6 @@
   },
   "devDependencies": {
     "@rollup/plugin-babel": "^6.0.3",
-    "@rollup/plugin-terser": "^0.4.3",
-    "rollup-plugin-typescript2": "^0.34.1"
+    "@rollup/plugin-terser": "^0.4.3"
   }
 }
