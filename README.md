@@ -8,7 +8,6 @@
 
 [![Node CI](https://github.com/ALI1416/qrcode-encoder-js/actions/workflows/ci.yml/badge.svg)](https://github.com/ALI1416/qrcode-encoder-js/actions/workflows/ci.yml)
 
-
 ## 简介
 
 本项目迁移自[ALI1416/QRCodeEncoder.Net](https://github.com/ali1416/QRCodeEncoder.Net)，只编写了生成器部分，并对处理逻辑进行了大量优化，构建后`qrcode-encoder.min.js`文件仅`15kb`
@@ -24,12 +23,12 @@
 
 ### 网页
 
-<https://unpkg.com/@ali1416/qrcode-encoder@1.0.3/dist/qrcode-encoder.min.js>
+<https://unpkg.com/@ali1416/qrcode-encoder@1.1.0/dist/qrcode-encoder.min.js>
 
 ### node
 
 ```sh
-npm install @ali1416/qrcode-encoder@1.0.3
+npm install @ali1416/qrcode-encoder@1.1.0
 ```
 
 ## 方法和参数
@@ -119,16 +118,6 @@ function QrMatrix2SvgPath(bytes, pixelSize) {
 
 更多请见[测试](./test)
 
-## 构建项目
-
-```sh
-npm install -g ts-node
-npm install -g typescript
-npm install -g rollup
-npm install
-npm run build
-```
-
 ## 更新日志
 
 [点击查看](./CHANGELOG.md)
@@ -137,13 +126,6 @@ npm run build
 
 - [ALI1416/QRCodeEncoder.Net](https://github.com/ali1416/QRCodeEncoder.Net)
 
-## 交流与赞助
+## 关于
 
-- [x] `QQ` : `1416978277`
-- [x] `微信` : `1416978277`
-- [x] `支付宝` : `1416978277@qq.com`
-- [x] `电子邮箱` : `1416978277@qq.com`
-
-![交流](https://cdn.jsdelivr.net/gh/ALI1416/ALI1416/image/contact.png)
-
-![赞助](https://cdn.jsdelivr.net/gh/ALI1416/ALI1416/image/donate.png)
+![关于](https://404z.cn/images/about.svg)

@@ -1,5 +1,6 @@
 import {Version} from "./Version";
 import {MaskPattern} from "./MaskPattern";
+import {QRCodeException} from "./QRCodeException";
 import {Encoder} from './ReedSolomon'
 import * as QRCodeUtils from './QRCodeUtils'
 
@@ -65,7 +66,7 @@ class QRCode {
     if (typeof level == "undefined") {
       levelValue = 0;
     } else if (level < 0 || level > 3) {
-      throw new Error("纠错等级 " + level + " 不合法！应为 [0,3]");
+      throw new QRCodeException("纠错等级 " + level + " 不合法！应为 [0,3]");
     } else {
       levelValue = level;
     }
@@ -74,11 +75,11 @@ class QRCode {
     if (typeof mode == "undefined") {
       modeValue = DetectionMode(content);
     } else if (mode < 0 || mode > 3) {
-      throw new Error("编码模式 " + mode + " 不合法！应为 [0,3]");
+      throw new QRCodeException("编码模式 " + mode + " 不合法！应为 [0,3]");
     } else {
       let detectionMode = DetectionMode(content);
       if (mode < detectionMode) {
-        throw new Error("编码模式 " + mode + " 太小！最小为 " + detectionMode);
+        throw new QRCodeException("编码模式 " + mode + " 太小！最小为 " + detectionMode);
       }
       modeValue = mode;
     }
