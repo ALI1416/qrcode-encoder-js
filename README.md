@@ -1,4 +1,4 @@
-# qrcode-encoder-js 二维码生成器JavaScript版
+# QR Code Encoder For JavaScript 二维码生成器JavaScript版
 
 [![License](https://img.shields.io/github/license/ali1416/qrcode-encoder-js?label=License)](https://www.apache.org/licenses/LICENSE-2.0.txt)
 [![Node Support](https://img.shields.io/badge/Node-14+-green)](https://nodejs.org/)
@@ -128,4 +128,9 @@ function QrMatrix2SvgPath(bytes, pixelSize) {
 
 ## 关于
 
-![关于](https://404z.cn/images/about.svg)
+<object data="https://404z.cn/images/about.svg" style="max-width:100%;">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://404z.cn/images/about.dark.svg">
+    <img alt="About" src="https://404z.cn/images/about.light.svg">
+  </picture>
+</object>
