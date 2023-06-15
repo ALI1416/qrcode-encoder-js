@@ -1,23 +1,23 @@
 # QR Code Encoder For JavaScript 二维码生成器JavaScript版
 
-[![License](https://img.shields.io/github/license/ali1416/qrcode-encoder-js?label=License)](https://www.apache.org/licenses/LICENSE-2.0.txt)
+[![License](https://img.shields.io/github/license/ALI1416/qrcode-encoder-js?label=License)](https://www.apache.org/licenses/LICENSE-2.0.txt)
 [![Node Support](https://img.shields.io/badge/Node-14+-green)](https://nodejs.org/)
 [![NPM](https://img.shields.io/npm/v/@ali1416/qrcode-encoder?label=NPM)](https://www.npmjs.com/package/@ali1416/qrcode-encoder)
-[![Tag](https://img.shields.io/github/v/tag/ali1416/qrcode-encoder-js?label=Tag)](https://github.com/ALI1416/qrcode-encoder-js/tags)
-[![Repo Size](https://img.shields.io/github/repo-size/ali1416/qrcode-encoder-js?label=Repo%20Size&color=success)](https://github.com/ALI1416/qrcode-encoder-js/archive/refs/heads/master.zip)
+[![Tag](https://img.shields.io/github/v/tag/ALI1416/qrcode-encoder-js?label=Tag)](https://github.com/ALI1416/qrcode-encoder-js/tags)
+[![Repo Size](https://img.shields.io/github/repo-size/ALI1416/qrcode-encoder-js?label=Repo%20Size&color=success)](https://github.com/ALI1416/qrcode-encoder-js/archive/refs/heads/master.zip)
 
 [![Node CI](https://github.com/ALI1416/qrcode-encoder-js/actions/workflows/ci.yml/badge.svg)](https://github.com/ALI1416/qrcode-encoder-js/actions/workflows/ci.yml)
 
 ## 简介
 
-本项目迁移自[ALI1416/QRCodeEncoder.Net](https://github.com/ali1416/QRCodeEncoder.Net)，只编写了生成器部分，并对处理逻辑进行了大量优化，构建后`qrcode-encoder.min.js`文件仅`15kb`
+本项目迁移自[ALI1416/QRCodeEncoder.Net](https://github.com/ALI1416/QRCodeEncoder.Net)，只编写了生成器部分，并对处理逻辑进行了大量优化，构建后`qrcode-encoder.min.js`文件仅`15kb`
 
 注意：本项目不提供二维码绘制方法，如需绘制请看`使用示例`
 
 ### 其他语言项目
 
-- `.Net` : [ALI1416/QRCodeEncoder.Net](https://github.com/ali1416/QRCodeEncoder.Net)
-- `Java` : [ALI1416/qrcode-encoder](https://github.com/ali1416/qrcode-encoder)
+- `.Net` : [ALI1416/QRCodeEncoder.Net](https://github.com/ALI1416/QRCodeEncoder.Net)
+- `Java` : [ALI1416/qrcode-encoder](https://github.com/ALI1416/qrcode-encoder)
 
 ## 依赖导入
 
@@ -124,13 +124,11 @@ function QrMatrix2SvgPath(bytes, pixelSize) {
 
 ## 参考
 
-- [ALI1416/QRCodeEncoder.Net](https://github.com/ali1416/QRCodeEncoder.Net)
+- [ALI1416/QRCodeEncoder.Net](https://github.com/ALI1416/QRCodeEncoder.Net)
 
 ## 关于
 
-<object data="https://404z.cn/images/about.svg" style="max-width:100%;">
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="https://404z.cn/images/about.dark.svg">
-    <img alt="About" src="https://404z.cn/images/about.light.svg">
-  </picture>
-</object>
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://www.404z.cn/images/about.dark.svg">
+  <img alt="About" src="https://www.404z.cn/images/about.light.svg">
+</picture>
