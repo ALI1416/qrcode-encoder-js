@@ -6,7 +6,7 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Title</title>
-  <script src="../dist/qrcode-encoder.min.js"></script>
+  <script src="../dist/qrcode-encoder.js"></script>
 </head>
 
 <body>
@@ -29,9 +29,9 @@
   let qr;
   encoder.addEventListener("click", function () {
     let contentValue = content.value;
-    let levelValue = level.value === "" ? undefined : level.value;
-    let modeValue = mode.value === "" ? undefined : mode.value;
-    let versionNumberValue = versionNumber.value === "" ? undefined : versionNumber.value;
+    let levelValue = level.value === "" ? undefined : Number(level.value);
+    let modeValue = mode.value === "" ? undefined : Number(mode.value);
+    let versionNumberValue = versionNumber.value === "" ? undefined : Number(versionNumber.value);
     try {
       qr = new QRCode(contentValue, levelValue, modeValue, versionNumberValue);
       tip.innerText = "内容：" + contentValue + "\n纠错等级：" + qr.Level + "\n编码模式：" + qr.Mode + "\n版本号：" + qr.VersionNumber;

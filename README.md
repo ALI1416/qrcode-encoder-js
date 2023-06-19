@@ -23,12 +23,12 @@
 
 ### 网页
 
-<https://unpkg.com/@ali1416/qrcode-encoder@1.1.0/dist/qrcode-encoder.min.js>
+<https://unpkg.com/@ali1416/qrcode-encoder@1.1.1/dist/qrcode-encoder.min.js>
 
 ### node
 
 ```sh
-npm install @ali1416/qrcode-encoder@1.1.0
+npm install @ali1416/qrcode-encoder@1.1.1
 ```
 
 ## 方法和参数

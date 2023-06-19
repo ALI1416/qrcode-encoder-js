@@ -1,6 +1,6 @@
 {
   "name": "@ali1416/qrcode-encoder",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "二维码生成器JavaScript版",
   "scripts": {
     "tsc": "npx tsc",
@@ -17,7 +17,6 @@
   "files": [
     "dist",
     "lib",
-    "src",
     "types",
     "package.json",
     "README.md",

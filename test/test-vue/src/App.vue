@@ -11,9 +11,9 @@ const svg = ref();
 
 function encoder() {
   let contentValue = content.value;
-  let levelValue = level.value === "" ? undefined : level.value;
-  let modeValue = mode.value === "" ? undefined : mode.value;
-  let versionNumberValue = versionNumber.value === "" ? undefined : versionNumber.value;
+  let levelValue = level.value === "" ? undefined : Number(level.value);
+  let modeValue = mode.value === "" ? undefined : Number(mode.value);
+  let versionNumberValue = versionNumber.value === "" ? undefined : Number(versionNumber.value);
   try {
     let qr = new QRCode(contentValue, levelValue, modeValue, versionNumberValue);
     tip.value = "内容：" + contentValue + "<br>纠错等级：" + qr.Level + "<br>编码模式：" + qr.Mode + "<br>版本号：" + qr.VersionNumber;

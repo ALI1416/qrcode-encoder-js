@@ -45,12 +45,12 @@ class QRCode {
   /**
    * 构造二维码
    * @param content 内容
-   * @param level 纠错等级
+   * @param level 纠错等级(默认0)
    *   <0 L 7%>
    *   <1 M 15%>
    *   <2 Q 25%>
    *   <3 H 30%>
-   * @param mode 编码模式
+   * @param mode 编码模式(默认自动探测)
    *   <0 NUMERIC 数字0-9>
    *   <1 ALPHANUMERIC 数字0-9、大写字母A-Z、符号(空格)$%*+-./:>
    *   <2 BYTE(ISO-8859-1)>
@@ -62,8 +62,12 @@ class QRCode {
     let levelValue: number;
     let modeValue: number;
     /* 数据 */
+    // 内容
+    if (typeof content !== "string") {
+      throw new QRCodeException("内容类型 " + (typeof content) + " 不合法！应为 string");
+    }
     // 纠错等级
-    if (typeof level == "undefined") {
+    if (typeof level !== "number") {
       levelValue = 0;
     } else if (level < 0 || level > 3) {
       throw new QRCodeException("纠错等级 " + level + " 不合法！应为 [0,3]");
@@ -72,7 +76,7 @@ class QRCode {
     }
     this.Level = Number(levelValue);
     // 编码模式
-    if (typeof mode == "undefined") {
+    if (typeof mode !== "number") {
       modeValue = DetectionMode(content);
     } else if (mode < 0 || mode > 3) {
       throw new QRCodeException("编码模式 " + mode + " 不合法！应为 [0,3]");

@@ -86,7 +86,7 @@ class Version {
     if (versionNumberValue === 0) {
       throw new QRCodeException("内容过长！最大版本号 40 也无法容下！请使用较低 纠错等级 或 减少内容！");
     }
-    if (typeof versionNumber != "undefined") {
+    if (typeof versionNumber === "number") {
       if (versionNumber < 1 || versionNumber > 40) {
         throw new QRCodeException("版本号 " + versionNumber + " 不合法！应为 [1,40]");
       } else if (versionNumberValue > versionNumber) {
