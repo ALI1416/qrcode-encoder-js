@@ -1,6 +1,6 @@
 <script setup>
 import {onMounted, ref} from 'vue'
-import QRCode from "@ali1416/qrcode-encoder"
+import {QRCode} from "@ali1416/qrcode-encoder"
 
 const content = ref("1234😀");
 const level = ref();
@@ -14,9 +14,9 @@ function encoder() {
   let levelValue = level.value === "" ? undefined : level.value;
   let modeValue = mode.value === "" ? undefined : mode.value;
   let versionNumberValue = versionNumber.value === "" ? undefined : versionNumber.value;
-  tip.value = "内容：" + contentValue + "<br>纠错等级：" + levelValue + "<br>编码模式：" + modeValue + "<br>版本号：" + versionNumberValue;
   try {
     let qr = new QRCode(contentValue, levelValue, modeValue, versionNumberValue);
+    tip.value = "内容：" + contentValue + "<br>纠错等级：" + qr.Level + "<br>编码模式：" + qr.Mode + "<br>版本号：" + qr.VersionNumber;
     svg.value = QrMatrix2Svg(qr.Matrix, 10);
   } catch (e) {
     tip.value += "<br>" + e;
