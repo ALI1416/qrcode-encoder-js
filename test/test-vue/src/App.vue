@@ -11,14 +11,15 @@ const svg = ref();
 
 function encoder() {
   let contentValue = content.value;
-  let levelValue = level.value === "" ? undefined : Number(level.value);
-  let modeValue = mode.value === "" ? undefined : Number(mode.value);
-  let versionNumberValue = versionNumber.value === "" ? undefined : Number(versionNumber.value);
+  let levelValue = typeof level.value !== "number" ? undefined : level.value;
+  let modeValue = typeof mode.value !== "number" ? undefined : mode.value;
+  let versionNumberValue = typeof versionNumber.value !== "number" ? undefined : versionNumber.value;
   try {
     let qr = new QRCode(contentValue, levelValue, modeValue, versionNumberValue);
     tip.value = "内容：" + contentValue + "<br>纠错等级：" + qr.Level + "<br>编码模式：" + qr.Mode + "<br>版本号：" + qr.VersionNumber;
     svg.value = QrMatrix2Svg(qr.Matrix, 10);
   } catch (e) {
+    console.error(e)
     tip.value += "<br>" + e;
   }
 }
