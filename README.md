@@ -10,7 +10,7 @@
 
 ## 简介
 
-本项目迁移自[ALI1416/QRCodeEncoder.Net](https://github.com/ALI1416/QRCodeEncoder.Net)，只编写了生成器部分，并对处理逻辑进行了大量优化，构建后`qrcode-encoder.min.js`文件仅`15kb`
+本项目迁移自[ALI1416/QRCodeEncoder.Net](https://github.com/ALI1416/QRCodeEncoder.Net)，只编写了生成器部分，并对处理逻辑进行了大量优化，构建后`qrcode-encoder.min.js`文件仅`16kb`
 
 注意：本项目不提供二维码绘制方法，如需绘制请看`使用示例`
 
@@ -23,12 +23,12 @@
 
 ### 网页
 
-<https://unpkg.com/@ali1416/qrcode-encoder@1.1.1/dist/qrcode-encoder.min.js>
+<https://unpkg.com/@ali1416/qrcode-encoder@1.1.3/dist/qrcode-encoder.min.js>
 
 ### node
 
 ```sh
-npm install @ali1416/qrcode-encoder@1.1.1
+npm install @ali1416/qrcode-encoder@1.1.3
 ```
 
 ## 方法和参数

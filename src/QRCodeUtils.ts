@@ -14,14 +14,14 @@
  * @return boolean[][]
  */
 function Convert(bytes: number[][], dimension: number): boolean[][] {
-  let data: boolean[][] = [];
+  let data: boolean[][] = []
   for (let i = 0; i < dimension; i++) {
-    data.push([]);
+    data.push([])
     for (let j = 0; j < dimension; j++) {
-      data[i][j] = (bytes[i][j] === 1);
+      data[i][j] = (bytes[i][j] === 1)
     }
   }
-  return data;
+  return data
 }
 
 /**
@@ -33,7 +33,7 @@ function Convert(bytes: number[][], dimension: number): boolean[][] {
  */
 function AddBits(bits: boolean[], pos: number, value: number, numberBits: number) {
   for (let i = 0; i < numberBits; i++) {
-    bits[pos + i] = (value & (1 << (numberBits - i - 1))) !== 0;
+    bits[pos + i] = (value & (1 << (numberBits - i - 1))) !== 0
   }
 }
 
@@ -44,11 +44,11 @@ function AddBits(bits: boolean[], pos: number, value: number, numberBits: number
  * @return boolean[] bit数组
  */
 function GetBits(value: number, numberBits: number): boolean[] {
-  let bits: boolean[] = [];
+  let bits: boolean[] = []
   for (let i = 0; i < numberBits; i++) {
-    bits[i] = (value & (1 << (numberBits - i - 1))) !== 0;
+    bits[i] = (value & (1 << (numberBits - i - 1))) !== 0
   }
-  return bits;
+  return bits
 }
 
 /**
@@ -59,9 +59,9 @@ function GetBits(value: number, numberBits: number): boolean[] {
  * @return number[] 字节数组
  */
 function GetBytes(data: boolean[], offset: number, bytes: number): number[] {
-  let result: number[] = [];
+  let result: number[] = []
   for (let i = 0; i < bytes; i++) {
-    let ptr = offset + i * 8;
+    let ptr = offset + i * 8
     result[i] = (
       (data[ptr] ? 0x80 : 0)
       | (data[ptr + 1] ? 0x40 : 0)
@@ -71,9 +71,9 @@ function GetBytes(data: boolean[], offset: number, bytes: number): number[] {
       | (data[ptr + 5] ? 0x04 : 0)
       | (data[ptr + 6] ? 0x02 : 0)
       | (data[ptr + 7] ? 0x01 : 0)
-    );
+    )
   }
-  return result;
+  return result
 }
 
 /**
@@ -82,18 +82,18 @@ function GetBytes(data: boolean[], offset: number, bytes: number): number[] {
  * @return number[] 字节数组
  */
 function GetUtf8Bytes(content: string): number[] {
-  let code = encodeURIComponent(content);
-  let bytes = [];
+  let code = encodeURIComponent(content)
+  let bytes = []
   for (let i = 0; i < code.length; i++) {
-    let c = code.charAt(i);
+    let c = code.charAt(i)
     if (c === '%') {
-      bytes.push(parseInt(code.charAt(i + 1) + code.charAt(i + 2), 16));
-      i += 2;
+      bytes.push(parseInt(code.charAt(i + 1) + code.charAt(i + 2), 16))
+      i += 2
     } else {
-      bytes.push(c.charCodeAt(0));
+      bytes.push(c.charCodeAt(0))
     }
   }
-  return bytes;
+  return bytes
 }
 
 export {Convert, AddBits, GetBits, GetBytes, GetUtf8Bytes}

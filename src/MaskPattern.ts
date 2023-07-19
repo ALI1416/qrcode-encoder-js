@@ -1,4 +1,4 @@
-import {Version} from "./Version";
+import {Version} from './Version'
 import * as QRCodeUtils from './QRCodeUtils'
 
 /**
@@ -13,15 +13,15 @@ class MaskPattern {
    * 模板列表
    * @description 0白 1黑
    */
-  readonly Patterns: number[][][] = [];
+  readonly Patterns: number[][][] = []
   /**
    * 惩戒分列表
    */
-  readonly Penalties: number[] = [];
+  readonly Penalties: number[] = []
   /**
    * 最好的模板下标
    */
-  readonly Best: number;
+  readonly Best: number
 
   /**
    * 构建模板
@@ -34,35 +34,35 @@ class MaskPattern {
    *   <3 H 30%>
    */
   constructor(data: boolean[], version: Version, level: number) {
-    let bestValue = -1;
-    let dimension = version.Dimension;
-    let versionNumber = version.VersionNumber;
+    let bestValue = -1
+    let dimension = version.Dimension
+    let versionNumber = version.VersionNumber
     for (let i = 0; i < 8; i++) {
       // 新建模板 0白 1黑 2空
-      let pattern: number[][] = [];
+      let pattern: number[][] = []
       // 填充为空模板
-      FillEmptyPattern(pattern, dimension);
+      FillEmptyPattern(pattern, dimension)
       // 嵌入基础图形
-      EmbedBasicPattern(pattern, dimension, versionNumber);
+      EmbedBasicPattern(pattern, dimension, versionNumber)
       // 嵌入格式信息
-      EmbedFormatInfo(pattern, dimension, level, i);
+      EmbedFormatInfo(pattern, dimension, level, i)
       // 嵌入版本信息(版本7+)
-      EmbedVersionInfo(pattern, dimension, versionNumber);
+      EmbedVersionInfo(pattern, dimension, versionNumber)
       // 嵌入数据
-      EmbedData(pattern, dimension, i, data);
-      this.Patterns[i] = pattern;
+      EmbedData(pattern, dimension, i, data)
+      this.Patterns[i] = pattern
       // 计算惩戒分
-      this.Penalties[i] = MaskPenaltyRule(pattern, dimension);
+      this.Penalties[i] = MaskPenaltyRule(pattern, dimension)
     }
     // 找到最好的模板
-    let minPenalty = Number.MAX_VALUE;
+    let minPenalty = Number.MAX_VALUE
     for (let i = 0; i < 8; i++) {
       if (this.Penalties[i] < minPenalty) {
-        minPenalty = this.Penalties[i];
-        bestValue = i;
+        minPenalty = this.Penalties[i]
+        bestValue = i
       }
     }
-    this.Best = bestValue;
+    this.Best = bestValue
   }
 }
 
@@ -73,9 +73,9 @@ class MaskPattern {
  */
 function FillEmptyPattern(pattern: number[][], dimension: number) {
   for (let i = 0; i < dimension; i++) {
-    pattern.push([]);
+    pattern.push([])
     for (let j = 0; j < dimension; j++) {
-      pattern[i][j] = 2;
+      pattern[i][j] = 2
     }
   }
 }
@@ -93,13 +93,13 @@ function FillEmptyPattern(pattern: number[][], dimension: number) {
  */
 function EmbedBasicPattern(pattern: number[][], dimension: number, versionNumber: number) {
   // 嵌入位置探测和分隔符图形
-  EmbedPositionFinderPatternAndSeparator(pattern, dimension);
+  EmbedPositionFinderPatternAndSeparator(pattern, dimension)
   // 嵌入位置校正图形(版本2+)
-  EmbedPositionAlignmentPattern(pattern, versionNumber);
+  EmbedPositionAlignmentPattern(pattern, versionNumber)
   // 嵌入定位图形
-  EmbedTimingPattern(pattern, dimension);
+  EmbedTimingPattern(pattern, dimension)
   // 嵌入左下角黑点
-  EmbedDarkDotAtLeftBottomCorner(pattern, dimension);
+  EmbedDarkDotAtLeftBottomCorner(pattern, dimension)
 }
 
 /**
@@ -109,31 +109,31 @@ function EmbedBasicPattern(pattern: number[][], dimension: number, versionNumber
  */
 function EmbedPositionFinderPatternAndSeparator(pattern: number[][], dimension: number) {
   /* 嵌入位置探测图形 */
-  let finderDimension = 7;
+  let finderDimension = 7
   // 左上角
-  EmbedPositionFinderPattern(pattern, 0, 0);
+  EmbedPositionFinderPattern(pattern, 0, 0)
   // 右上角
-  EmbedPositionFinderPattern(pattern, dimension - finderDimension, 0);
+  EmbedPositionFinderPattern(pattern, dimension - finderDimension, 0)
   // 左下角
-  EmbedPositionFinderPattern(pattern, 0, dimension - finderDimension);
+  EmbedPositionFinderPattern(pattern, 0, dimension - finderDimension)
 
   /* 嵌入水平分隔符图形 */
-  let horizontalWidth = 8;
+  let horizontalWidth = 8
   // 左上角
-  EmbedHorizontalSeparationPattern(pattern, 0, horizontalWidth - 1);
+  EmbedHorizontalSeparationPattern(pattern, 0, horizontalWidth - 1)
   // 右上角
-  EmbedHorizontalSeparationPattern(pattern, dimension - horizontalWidth, horizontalWidth - 1);
+  EmbedHorizontalSeparationPattern(pattern, dimension - horizontalWidth, horizontalWidth - 1)
   // 左下角
-  EmbedHorizontalSeparationPattern(pattern, 0, dimension - horizontalWidth);
+  EmbedHorizontalSeparationPattern(pattern, 0, dimension - horizontalWidth)
 
   /* 嵌入垂直分隔符图形 */
-  let verticalHeight = 7;
+  let verticalHeight = 7
   // 左上角
-  EmbedVerticalSeparationPattern(pattern, verticalHeight, 0);
+  EmbedVerticalSeparationPattern(pattern, verticalHeight, 0)
   // 右上角
-  EmbedVerticalSeparationPattern(pattern, dimension - verticalHeight - 1, 0);
+  EmbedVerticalSeparationPattern(pattern, dimension - verticalHeight - 1, 0)
   // 左下角
-  EmbedVerticalSeparationPattern(pattern, verticalHeight, dimension - verticalHeight);
+  EmbedVerticalSeparationPattern(pattern, verticalHeight, dimension - verticalHeight)
 }
 
 /**
@@ -145,7 +145,7 @@ function EmbedPositionFinderPatternAndSeparator(pattern: number[][], dimension: 
 function EmbedPositionFinderPattern(pattern: number[][], xStart: number, yStart: number) {
   for (let x = 0; x < 7; x++) {
     for (let y = 0; y < 7; y++) {
-      pattern[xStart + x][yStart + y] = POSITION_FINDER_PATTERN[x][y];
+      pattern[xStart + x][yStart + y] = POSITION_FINDER_PATTERN[x][y]
     }
   }
 }
@@ -158,7 +158,7 @@ function EmbedPositionFinderPattern(pattern: number[][], xStart: number, yStart:
  */
 function EmbedHorizontalSeparationPattern(pattern: number[][], xStart: number, yStart: number) {
   for (let x = 0; x < 8; x++) {
-    pattern[xStart + x][yStart] = 0;
+    pattern[xStart + x][yStart] = 0
   }
 }
 
@@ -170,7 +170,7 @@ function EmbedHorizontalSeparationPattern(pattern: number[][], xStart: number, y
  */
 function EmbedVerticalSeparationPattern(pattern: number[][], xStart: number, yStart: number) {
   for (let y = 0; y < 7; y++) {
-    pattern[xStart][yStart + y] = 0;
+    pattern[xStart][yStart + y] = 0
   }
 }
 
@@ -180,7 +180,7 @@ function EmbedVerticalSeparationPattern(pattern: number[][], xStart: number, ySt
  * @param dimension 尺寸
  */
 function EmbedDarkDotAtLeftBottomCorner(pattern: number[][], dimension: number) {
-  pattern[8][dimension - 8] = 1;
+  pattern[8][dimension - 8] = 1
 }
 
 /**
@@ -190,17 +190,17 @@ function EmbedDarkDotAtLeftBottomCorner(pattern: number[][], dimension: number) 
  */
 function EmbedPositionAlignmentPattern(pattern: number[][], versionNumber: number) {
   if (versionNumber < 2) {
-    return;
+    return
   }
-  let coordinates = POSITION_ALIGNMENT_PATTERN_COORDINATE[versionNumber - 2];
-  let length = coordinates.length;
+  let coordinates = POSITION_ALIGNMENT_PATTERN_COORDINATE[versionNumber - 2]
+  let length = coordinates.length
   for (let x = 0; x < length; x++) {
     for (let y = 0; y < length; y++) {
       // 跳过位置探测图形
       if ((x === 0 && y === 0) || (x === 0 && y === length - 1) || (y === 0 && x === length - 1)) {
-        continue;
+        continue
       }
-      EmbedPositionAlignmentPattern2(pattern, coordinates[x] - 2, coordinates[y] - 2);
+      EmbedPositionAlignmentPattern2(pattern, coordinates[x] - 2, coordinates[y] - 2)
     }
   }
 }
@@ -214,7 +214,7 @@ function EmbedPositionAlignmentPattern(pattern: number[][], versionNumber: numbe
 function EmbedPositionAlignmentPattern2(pattern: number[][], xStart: number, yStart: number) {
   for (let x = 0; x < 5; x++) {
     for (let y = 0; y < 5; y++) {
-      pattern[xStart + x][yStart + y] = POSITION_ALIGNMENT_PATTERN[x][y];
+      pattern[xStart + x][yStart + y] = POSITION_ALIGNMENT_PATTERN[x][y]
     }
   }
 }
@@ -226,10 +226,10 @@ function EmbedPositionAlignmentPattern2(pattern: number[][], xStart: number, ySt
  */
 function EmbedTimingPattern(pattern: number[][], dimension: number) {
   for (let i = 8; i < dimension - 8; i++) {
-    let isBlack = (i + 1) % 2;
+    let isBlack = (i + 1) % 2
     // 不必跳过校正图形
-    pattern[i][6] = isBlack;
-    pattern[6][i] = isBlack;
+    pattern[i][6] = isBlack
+    pattern[6][i] = isBlack
   }
 }
 
@@ -241,23 +241,23 @@ function EmbedTimingPattern(pattern: number[][], dimension: number) {
  * @param id 模板序号
  */
 function EmbedFormatInfo(pattern: number[][], dimension: number, level: number, id: number) {
-  let formatInfo = FormatInfo[level][id];
+  let formatInfo = FormatInfo[level][id]
   for (let i = 0; i < 15; i++) {
-    let isBlack = formatInfo[14 - i] ? 1 : 0;
+    let isBlack = formatInfo[14 - i] ? 1 : 0
     // 左上角
-    pattern[FORMAT_INFO_COORDINATES[i][0]][FORMAT_INFO_COORDINATES[i][1]] = isBlack;
-    let x: number, y: number;
+    pattern[FORMAT_INFO_COORDINATES[i][0]][FORMAT_INFO_COORDINATES[i][1]] = isBlack
+    let x: number, y: number
     // 右上角
     if (i < 8) {
-      x = dimension - i - 1;
-      y = 8;
+      x = dimension - i - 1
+      y = 8
     }
     // 左下角
     else {
-      x = 8;
-      y = dimension + i - 15;
+      x = 8
+      y = dimension + i - 15
     }
-    pattern[x][y] = isBlack;
+    pattern[x][y] = isBlack
   }
 }
 
@@ -269,17 +269,17 @@ function EmbedFormatInfo(pattern: number[][], dimension: number, level: number, 
  */
 function EmbedVersionInfo(pattern: number[][], dimension: number, versionNumber: number) {
   if (versionNumber < 7) {
-    return;
+    return
   }
-  let versionInfo = VersionInfo[versionNumber - 7];
-  let index = 17;
+  let versionInfo = VersionInfo[versionNumber - 7]
+  let index = 17
   for (let i = 0; i < 6; i++) {
     for (let j = 0; j < 3; j++) {
-      let isBlack = versionInfo[index--] ? 1 : 0;
+      let isBlack = versionInfo[index--] ? 1 : 0
       // 左下角
-      pattern[i][dimension - 11 + j] = isBlack;
+      pattern[i][dimension - 11 + j] = isBlack
       // 右上角
-      pattern[dimension - 11 + j][i] = isBlack;
+      pattern[dimension - 11 + j][i] = isBlack
     }
   }
 }
@@ -292,42 +292,42 @@ function EmbedVersionInfo(pattern: number[][], dimension: number, versionNumber:
  * @param data 数据
  */
 function EmbedData(pattern: number[][], dimension: number, id: number, data: boolean[]) {
-  let length = data.length;
-  let index = 0;
-  let direction = -1;
+  let length = data.length
+  let index = 0
+  let direction = -1
   // 从右下角开始
-  let x = dimension - 1;
-  let y = dimension - 1;
+  let x = dimension - 1
+  let y = dimension - 1
   while (x > 0) {
     // 跳过垂直分隔符图形
     if (x === 6) {
-      x -= 1;
+      x -= 1
     }
     while (y >= 0 && y < dimension) {
       for (let i = 0; i < 2; i++) {
-        let xx = x - i;
+        let xx = x - i
         // 跳过不为空
         if (pattern[xx][y] !== 2) {
-          continue;
+          continue
         }
-        let isBlack;
+        let isBlack
         if (index < length) {
-          isBlack = data[index] ? 1 : 0;
-          index++;
+          isBlack = data[index] ? 1 : 0
+          index++
         } else {
-          isBlack = 0;
+          isBlack = 0
         }
         // 需要掩模
         if (GetMaskBit(id, xx, y)) {
-          isBlack ^= 1;
+          isBlack ^= 1
         }
-        pattern[xx][y] = isBlack;
+        pattern[xx][y] = isBlack
       }
-      y += direction;
+      y += direction
     }
-    direction = -direction;
-    y += direction;
-    x -= 2;
+    direction = -direction
+    y += direction
+    x -= 2
   }
 }
 
@@ -341,30 +341,30 @@ function EmbedData(pattern: number[][], dimension: number, id: number, data: boo
 function GetMaskBit(id: number, x: number, y: number): boolean {
   switch (id) {
     case 1: {
-      return (y % 2) === 0;
+      return (y % 2) === 0
     }
     case 2: {
-      return (x % 3) === 0;
+      return (x % 3) === 0
     }
     case 3: {
-      return ((x + y) % 3) === 0;
+      return ((x + y) % 3) === 0
     }
     case 4: {
-      return ((Math.floor(y / 2) + Math.floor(x / 3)) % 2) === 0;
+      return ((Math.floor(y / 2) + Math.floor(x / 3)) % 2) === 0
     }
     case 5: {
-      let temp = x * y;
-      return ((temp % 2) + (temp % 3)) === 0;
+      let temp = x * y
+      return ((temp % 2) + (temp % 3)) === 0
     }
     case 6: {
-      let temp = x * y;
-      return (((temp % 2) + (temp % 3)) % 2) === 0;
+      let temp = x * y
+      return (((temp % 2) + (temp % 3)) % 2) === 0
     }
     case 7: {
-      return ((((x * y) % 3) + ((x + y) % 2)) % 2) === 0;
+      return ((((x * y) % 3) + ((x + y) % 2)) % 2) === 0
     }
     default: {
-      return ((x + y) % 2) === 0;
+      return ((x + y) % 2) === 0
     }
   }
 }
@@ -379,7 +379,7 @@ function MaskPenaltyRule(pattern: number[][], dimension: number): number {
   return MaskPenaltyRule1(pattern, dimension)
     + MaskPenaltyRule2(pattern, dimension)
     + MaskPenaltyRule3(pattern, dimension)
-    + MaskPenaltyRule4(pattern, dimension);
+    + MaskPenaltyRule4(pattern, dimension)
 }
 
 /**
@@ -392,46 +392,46 @@ function MaskPenaltyRule(pattern: number[][], dimension: number): number {
  * @return number 规则1惩戒分
  */
 function MaskPenaltyRule1(pattern: number[][], dimension: number): number {
-  let penalty = 0;
+  let penalty = 0
   for (let i = 0; i < dimension; i++) {
-    let countRow = 0;
-    let countCol = 0;
-    let prevBitRow = 2;
-    let prevBitCol = 2;
+    let countRow = 0
+    let countCol = 0
+    let prevBitRow = 2
+    let prevBitCol = 2
     for (let j = 0; j < dimension; j++) {
-      let bitRow = pattern[i][j];
-      let bitCol = pattern[j][i];
+      let bitRow = pattern[i][j]
+      let bitCol = pattern[j][i]
       // 行
       if (bitRow === prevBitRow) {
-        countRow++;
+        countRow++
       } else {
         if (countRow > 4) {
-          penalty += PENALTY1 + (countRow - 5);
+          penalty += PENALTY1 + (countRow - 5)
         }
-        countRow = 1;
-        prevBitRow = bitRow;
+        countRow = 1
+        prevBitRow = bitRow
       }
       // 列
       if (bitCol === prevBitCol) {
-        countCol++;
+        countCol++
       } else {
         if (countCol > 4) {
-          penalty += PENALTY1 + (countCol - 5);
+          penalty += PENALTY1 + (countCol - 5)
         }
-        countCol = 1;
-        prevBitCol = bitCol;
+        countCol = 1
+        prevBitCol = bitCol
       }
     }
     // 行
     if (countRow > 4) {
-      penalty += PENALTY1 + (countRow - 5);
+      penalty += PENALTY1 + (countRow - 5)
     }
     // 列
     if (countCol > 4) {
-      penalty += PENALTY1 + (countCol - 5);
+      penalty += PENALTY1 + (countCol - 5)
     }
   }
-  return penalty;
+  return penalty
 }
 
 /**
@@ -444,17 +444,17 @@ function MaskPenaltyRule1(pattern: number[][], dimension: number): number {
  * @return number 规则2惩戒分
  */
 function MaskPenaltyRule2(pattern: number[][], dimension: number): number {
-  let penalty = 0;
+  let penalty = 0
   for (let x = 0; x < dimension - 1; x++) {
     for (let y = 0; y < dimension - 1; y++) {
       // 2x2块
-      let bit = pattern[x][y];
+      let bit = pattern[x][y]
       if (bit === pattern[x][y + 1] && bit === pattern[x + 1][y] && bit === pattern[x + 1][y + 1]) {
-        penalty++;
+        penalty++
       }
     }
   }
-  return PENALTY2 * penalty;
+  return PENALTY2 * penalty
 }
 
 /**
@@ -467,7 +467,7 @@ function MaskPenaltyRule2(pattern: number[][], dimension: number): number {
  * @return number 规则3惩戒分
  */
 function MaskPenaltyRule3(pattern: number[][], dimension: number): number {
-  let penalty = 0;
+  let penalty = 0
   for (let x = 0; x < dimension; x++) {
     for (let y = 0; y < dimension; y++) {
       // 行
@@ -502,7 +502,7 @@ function MaskPenaltyRule3(pattern: number[][], dimension: number): number {
             pattern[x][y + 8] === 0 &&
             pattern[x][y + 9] === 0 &&
             pattern[x][y + 10] === 0))) {
-        penalty++;
+        penalty++
       }
       // 列
       if (
@@ -536,11 +536,11 @@ function MaskPenaltyRule3(pattern: number[][], dimension: number): number {
             pattern[x + 8][y] === 0 &&
             pattern[x + 9][y] === 0 &&
             pattern[x + 10][y] === 0))) {
-        penalty++;
+        penalty++
       }
     }
   }
-  return PENALTY3 * penalty;
+  return PENALTY3 * penalty
 }
 
 /**
@@ -553,17 +553,17 @@ function MaskPenaltyRule3(pattern: number[][], dimension: number): number {
  * @return number 规则4惩戒分
  */
 function MaskPenaltyRule4(pattern: number[][], dimension: number): number {
-  let count = 0;
+  let count = 0
   for (let x = 0; x < dimension; x++) {
     for (let y = 0; y < dimension; y++) {
       if (pattern[x][y] === 1) {
-        count++;
+        count++
       }
     }
   }
-  let ratio = count / (dimension * dimension);
-  let penalty = Math.floor(Math.abs(ratio - 0.5) * 20);
-  return PENALTY4 * penalty;
+  let ratio = count / (dimension * dimension)
+  let penalty = Math.floor(Math.abs(ratio - 0.5) * 20)
+  return PENALTY4 * penalty
 }
 
 /**
@@ -576,7 +576,7 @@ const FORMAT_INFO: number[][] = [
   [0x5412, 0x5125, 0x5E7C, 0x5B4B, 0x45F9, 0x40CE, 0x4F97, 0x4AA0,], // 1
   [0x355F, 0x3068, 0x3F31, 0x3A06, 0x24B4, 0x2183, 0x2EDA, 0x2BED,], // 2
   [0x1689, 0x13BE, 0x1CE7, 0x19D0, 0x0762, 0x0255, 0x0D0C, 0x083B,], // 3
-];
+]
 
 /**
  * 版本信息(版本7+)
@@ -591,28 +591,28 @@ const VERSION_INFO: number[] = [
   0x1AFAB, 0x1B08E, 0x1CC1A, 0x1D33F, 0x1ED75, // 26-30
   0x1F250, 0x209D5, 0x216F0, 0x228BA, 0x2379F, // 31-35
   0x24B0B, 0x2542E, 0x26A64, 0x27541, 0x28C69, // 36-40
-];
+]
 
 /**
  * 格式信息
  */
-const FormatInfo: boolean[][][] = [];
+const FormatInfo: boolean[][][] = []
 /**
  * 版本信息(版本7+)
  */
-const VersionInfo: boolean[][] = [];
+const VersionInfo: boolean[][] = []
 
 // 初始化格式信息
 for (let i = 0; i < 4; i++) {
-  FormatInfo.push([[]]);
+  FormatInfo.push([[]])
   for (let j = 0; j < 8; j++) {
-    FormatInfo[i][j] = QRCodeUtils.GetBits(FORMAT_INFO[i][j], 15);
+    FormatInfo[i][j] = QRCodeUtils.GetBits(FORMAT_INFO[i][j], 15)
   }
 }
 // 初始化版本信息(版本7+)
 for (let i = 0; i < 34; i++) {
-  VersionInfo.push([]);
-  VersionInfo[i] = QRCodeUtils.GetBits(VERSION_INFO[i], 18);
+  VersionInfo.push([])
+  VersionInfo[i] = QRCodeUtils.GetBits(VERSION_INFO[i], 18)
 }
 
 /**
@@ -629,7 +629,7 @@ const POSITION_FINDER_PATTERN: number[][] = [
   [1, 0, 1, 1, 1, 0, 1],
   [1, 0, 0, 0, 0, 0, 1],
   [1, 1, 1, 1, 1, 1, 1],
-];
+]
 /**
  * 位置校正图形
  * @description 索引[x坐标,y坐标]:5x5
@@ -642,7 +642,7 @@ const POSITION_ALIGNMENT_PATTERN: number[][] = [
   [1, 0, 1, 0, 1],
   [1, 0, 0, 0, 1],
   [1, 1, 1, 1, 1],
-];
+]
 /**
  * 位置校正图形坐标(版本2+)
  * @description 索引[版本号][坐标]:39x?
@@ -710,27 +710,27 @@ const FORMAT_INFO_COORDINATES: number[][] = [
   [2, 8],
   [1, 8],
   [0, 8],
-];
+]
 
 /**
  * 惩戒规则1惩戒分 3
  * @description 数据来源 ISO/IEC 18004-2015 -> 7.8.3.1 -> N1
  */
-const PENALTY1: number = 3;
+const PENALTY1: number = 3
 /**
  * 惩戒规则2惩戒分 3
  * @description 数据来源 ISO/IEC 18004-2015 -> 7.8.3.1 -> N2
  */
-const PENALTY2: number = 3;
+const PENALTY2: number = 3
 /**
  * 惩戒规则3惩戒分 40
  * @description 数据来源 ISO/IEC 18004-2015 -> 7.8.3.1 -> N3
  */
-const PENALTY3: number = 40;
+const PENALTY3: number = 40
 /**
  * 惩戒规则4惩戒分 10
  * @description 数据来源 ISO/IEC 18004-2015 -> 7.8.3.1 -> N4
  */
-const PENALTY4: number = 10;
+const PENALTY4: number = 10
 
 export {MaskPattern}

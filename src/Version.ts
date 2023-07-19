@@ -1,4 +1,4 @@
-import {QRCodeException} from "./QRCodeException";
+import {QRCodeException} from './QRCodeException'
 
 /**
  * 版本
@@ -55,77 +55,100 @@ class Version {
    * @param versionNumber 版本号(默认最小版本)
    *   [1,40]
    */
-  constructor(length: number, level: number, mode: number, versionNumber?: number) {
-    let versionNumberValue: number;
-    // 最小版本号
-    switch (mode) {
-      // NUMERIC 数字0-9
-      case 0: {
-        versionNumberValue = ModeNumeric(length, level) + 1;
-        break;
-      }
-      // ALPHANUMERIC 数字0-9、大写字母A-Z、符号(空格)$%*+-./:
-      case 1: {
-        versionNumberValue = ModeAlphaNumeric(length, level) + 1;
-        break;
-      }
-      // BYTE(ISO-8859-1)
-      case 2: {
-        versionNumberValue = ModeByte(length, level) + 1;
-        break;
-      }
-      // BYTE(UTF-8)
-      default: {
-        // 相比ISO-8859-1多1字节(不需要补齐符的情况下)
-        // ECI模式指示符(4bit)+ECI指定符(8bit)-结束符(4bit)=1字节
-        versionNumberValue = ModeByte(length + 1, level) + 1;
-        break;
-      }
-    }
-    // 指定版本号
-    if (versionNumberValue === 0) {
-      throw new QRCodeException("内容过长！最大版本号 40 也无法容下！请使用较低 纠错等级 或 减少内容！");
-    }
-    if (typeof versionNumber === "number") {
-      if (versionNumber < 1 || versionNumber > 40) {
-        throw new QRCodeException("版本号 " + versionNumber + " 不合法！应为 [1,40]");
-      } else if (versionNumberValue > versionNumber) {
-        throw new QRCodeException("版本号 " + versionNumber + " 太小！最小为 " + versionNumberValue);
+  constructor(length: number, level: number, mode: number, versionNumber?: undefined | number) {
+    let versionNumberValue: number
+    // 版本号
+    versionNumberValue = DetectionVersion(length, level, mode)
+    if (typeof versionNumber !== 'undefined') {
+      if (typeof versionNumber === 'number') {
+        if (versionNumber < 1 || versionNumber > 40) {
+          throw new QRCodeException('版本号 ' + versionNumber + ' 不合法！应为 [1,40]')
+        } else if (versionNumber < versionNumberValue) {
+          throw new QRCodeException('版本号 ' + versionNumber + ' 太小！最小为 ' + versionNumberValue)
+        }
+        versionNumberValue = versionNumber
       } else {
-        versionNumberValue = Number(versionNumber);
+        throw new QRCodeException('版本号类型 ' + (typeof versionNumber) + ' 不合法！应为 number')
       }
     }
-    this.VersionNumber = versionNumberValue;
+    this.VersionNumber = versionNumberValue
     // `内容字节数`bit数
     switch (mode) {
       // NUMERIC
       case 0: {
         // `内容字节数`bit数 1-9版本10bit 10-26版本12bit 27-40版本14bit
         // 数据来源 ISO/IEC 18004-2015 -> 7.4.1 -> Table 3 -> Numeric mode列
-        this.ContentBytesBits = this.VersionNumber < 10 ? 10 : (this.VersionNumber < 27 ? 12 : 14);
-        break;
+        this.ContentBytesBits = this.VersionNumber < 10 ? 10 : (this.VersionNumber < 27 ? 12 : 14)
+        break
       }
       // ALPHANUMERIC
       case 1: {
         // `内容字节数`bit数 1-9版本9bit 10-26版本11bit 27-40版本13bit
         // 数据来源 ISO/IEC 18004-2015 -> 7.4.1 -> Table 3 -> Alphanumeric mode列
-        this.ContentBytesBits = this.VersionNumber < 10 ? 9 : (this.VersionNumber < 27 ? 11 : 13);
-        break;
+        this.ContentBytesBits = this.VersionNumber < 10 ? 9 : (this.VersionNumber < 27 ? 11 : 13)
+        break
       }
       // BYTE
       default: {
         // `内容字节数`bit数 1-9版本8bit 10-40版本16bit
         // 数据来源 ISO/IEC 18004-2015 -> 7.4.1 -> Table 3 -> Byte mode列
-        this.ContentBytesBits = this.VersionNumber < 10 ? 8 : 16;
-        break;
+        this.ContentBytesBits = this.VersionNumber < 10 ? 8 : 16
+        break
       }
     }
-    this.Dimension = (this.VersionNumber - 1) * 4 + 21;
-    this.DataBits = DATA_BYTES[this.VersionNumber - 1][level] * 8;
-    this.DataAndEcBits = DATA_AND_EC_BITS[this.VersionNumber - 1];
-    this.Ec = EC[this.VersionNumber - 1][level];
+    this.Dimension = (this.VersionNumber - 1) * 4 + 21
+    this.DataBits = DATA_BYTES[this.VersionNumber - 1][level] * 8
+    this.DataAndEcBits = DATA_AND_EC_BITS[this.VersionNumber - 1]
+    this.Ec = EC[this.VersionNumber - 1][level]
   }
+}
 
+/**
+ * 探测版本号
+ * @param length 内容字节数
+ * @param level 纠错等级
+ *   <0 L 7%>
+ *   <1 M 15%>
+ *   <2 Q 25%>
+ *   <3 H 30%>
+ * @param mode 编码模式
+ *   <0 NUMERIC 数字0-9>
+ *   <1 ALPHANUMERIC 数字0-9、大写字母A-Z、符号(空格)$%*+-./:>
+ *   <2 BYTE(ISO-8859-1)>
+ *   <3 BYTE(UTF-8)>
+ * @return number 版本号
+ * @since 1.1.3
+ */
+function DetectionVersion(length: number, level: number, mode: number): number {
+  let versionNumber: number
+  switch (mode) {
+    // NUMERIC 数字0-9
+    case 0: {
+      versionNumber = ModeNumeric(length, level) + 1
+      break
+    }
+    // ALPHANUMERIC 数字0-9、大写字母A-Z、符号(空格)$%*+-./:
+    case 1: {
+      versionNumber = ModeAlphaNumeric(length, level) + 1
+      break
+    }
+    // BYTE(ISO-8859-1)
+    case 2: {
+      versionNumber = ModeByte(length, level) + 1
+      break
+    }
+    // BYTE(UTF-8)
+    default: {
+      // 相比ISO-8859-1多1字节(不需要补齐符的情况下)
+      // ECI模式指示符(4bit)+ECI指定符(8bit)-结束符(4bit)=1字节
+      versionNumber = ModeByte(length + 1, level) + 1
+      break
+    }
+  }
+  if (versionNumber === 0) {
+    throw new QRCodeException('内容过长！最大版本号 40 也无法容下！请使用较低 纠错等级 或 减少内容！')
+  }
+  return versionNumber
 }
 
 /**
@@ -139,24 +162,24 @@ function ModeNumeric(length: number, level: number): number {
   for (let i = 0; i < 9; i++) {
     // 模式指示符(4bit)+`内容字节数`bit数(10bit)=14bit
     if (length <= ModeNumericMaxLength(DATA_BYTES[i][level] * 8 - 14)) {
-      return i;
+      return i
     }
   }
   // `内容字节数`bit数 10-26版本12bit
   for (let i = 9; i < 26; i++) {
     // 模式指示符(4bit)+`内容字节数`bit数(12bit)=16bit
     if (length <= ModeNumericMaxLength(DATA_BYTES[i][level] * 8 - 16)) {
-      return i;
+      return i
     }
   }
   // `内容字节数`bit数 27-40版本14bit
   for (let i = 26; i < 40; i++) {
     // 模式指示符(4bit)+`内容字节数`bit数(14bit)=18bit
     if (length <= ModeNumericMaxLength(DATA_BYTES[i][level] * 8 - 18)) {
-      return i;
+      return i
     }
   }
-  return 0;
+  return 0
 }
 
 /**
@@ -166,14 +189,14 @@ function ModeNumeric(length: number, level: number): number {
  */
 function ModeNumericMaxLength(maxBits: number): number {
   // 3个字符10bit 2个字符7bit 1个字符4bit
-  let maxLength = maxBits / 10 * 3;
-  let remainder = maxBits % 10;
+  let maxLength = maxBits / 10 * 3
+  let remainder = maxBits % 10
   if (remainder > 6) {
-    maxLength += 2;
+    maxLength += 2
   } else if (remainder > 3) {
-    maxLength++;
+    maxLength++
   }
-  return maxLength;
+  return maxLength
 }
 
 /**
@@ -187,24 +210,24 @@ function ModeAlphaNumeric(length: number, level: number): number {
   for (let i = 0; i < 9; i++) {
     // 模式指示符(4bit)+`内容字节数`bit数(9bit)=13bit
     if (length <= ModeAlphaNumericMaxLength(DATA_BYTES[i][level] * 8 - 13)) {
-      return i;
+      return i
     }
   }
   // `内容字节数`bit数 10-26版本11bit
   for (let i = 9; i < 26; i++) {
     // 模式指示符(4bit)+`内容字节数`bit数(11bit)=15bit
     if (length <= ModeAlphaNumericMaxLength(DATA_BYTES[i][level] * 8 - 15)) {
-      return i;
+      return i
     }
   }
   // `内容字节数`bit数 27-40版本13bit
   for (let i = 26; i < 40; i++) {
     // 模式指示符(4bit)+`内容字节数`bit数(13bit)=17bit
     if (length <= ModeAlphaNumericMaxLength(DATA_BYTES[i][level] * 8 - 17)) {
-      return i;
+      return i
     }
   }
-  return 0;
+  return 0
 }
 
 /**
@@ -214,12 +237,12 @@ function ModeAlphaNumeric(length: number, level: number): number {
  */
 function ModeAlphaNumericMaxLength(maxBits: number): number {
   // 2个字符11bit 1个字符6bit
-  let maxLength = maxBits / 11 * 2;
-  let remainder = maxBits % 11;
+  let maxLength = maxBits / 11 * 2
+  let remainder = maxBits % 11
   if (remainder > 5) {
-    maxLength++;
+    maxLength++
   }
-  return maxLength;
+  return maxLength
 }
 
 /**
@@ -233,17 +256,17 @@ function ModeByte(length: number, level: number): number {
   for (let i = 0; i < 9; i++) {
     // 模式指示符(4bit)+`内容字节数`bit数(8bit)+结束符(4bit)=2字节
     if (length < DATA_BYTES[i][level] - 1) {
-      return i;
+      return i
     }
   }
   // `内容字节数`bit数 10-40版本16bit
   for (let i = 9; i < 40; i++) {
     // 模式指示符(4bit)+`内容字节数`bit数(16bit)+结束符(4bit)=3字节
     if (length < DATA_BYTES[i][level] - 2) {
-      return i;
+      return i
     }
   }
-  return 0;
+  return 0
 }
 
 /**

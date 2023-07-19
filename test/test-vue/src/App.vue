@@ -1,31 +1,31 @@
 <script setup>
 import {onMounted, ref} from 'vue'
-import {QRCode} from "@ali1416/qrcode-encoder"
+import {QRCode} from '@ali1416/qrcode-encoder'
 
-const content = ref("1234😀");
-const level = ref();
-const mode = ref();
-const versionNumber = ref();
-const tip = ref();
-const svg = ref();
+const content = ref('1234😀')
+const level = ref()
+const mode = ref()
+const versionNumber = ref()
+const tip = ref()
+const svg = ref()
 
 function encoder() {
-  let contentValue = content.value;
-  let levelValue = typeof level.value !== "number" ? undefined : level.value;
-  let modeValue = typeof mode.value !== "number" ? undefined : mode.value;
-  let versionNumberValue = typeof versionNumber.value !== "number" ? undefined : versionNumber.value;
+  let contentValue = content.value
+  let levelValue = typeof level.value !== 'number' ? undefined : level.value
+  let modeValue = typeof mode.value !== 'number' ? undefined : mode.value
+  let versionNumberValue = typeof versionNumber.value !== 'number' ? undefined : versionNumber.value
   try {
-    let qr = new QRCode(contentValue, levelValue, modeValue, versionNumberValue);
-    tip.value = "内容：" + contentValue + "<br>纠错等级：" + qr.Level + "<br>编码模式：" + qr.Mode + "<br>版本号：" + qr.VersionNumber;
-    svg.value = QrMatrix2Svg(qr.Matrix, 10);
+    let qr = new QRCode(contentValue, levelValue, modeValue, versionNumberValue)
+    tip.value = '内容：' + contentValue + '<br>纠错等级：' + qr.Level + '<br>编码模式：' + qr.Mode + '<br>版本号：' + qr.VersionNumber
+    svg.value = QrMatrix2Svg(qr.Matrix, 10)
   } catch (e) {
     console.error(e)
-    tip.value += "<br>" + e;
+    tip.value += '<br>' + e
   }
 }
 
 onMounted(() => {
-  encoder();
+  encoder()
 })
 
 /**
@@ -35,18 +35,18 @@ onMounted(() => {
  * @return string SVG
  */
 function QrMatrix2Svg(bytes, pixelSize) {
-  let length = bytes.length;
-  let size = (length + 2) * pixelSize;
-  let svg = "<svg width=\"" + size + "\" height=\"" + size + "\" viewBox=\"0 0 " + size + " " + size + "\" xmlns=\"http://www.w3.org/2000/svg\">\n";
+  let length = bytes.length
+  let size = (length + 2) * pixelSize
+  let svg = '<svg width="' + size + '" height="' + size + '" viewBox="0 0 ' + size + ' ' + size + '" xmlns="http://www.w3.org/2000/svg">\n'
   for (let x = 0; x < length; x++) {
     for (let y = 0; y < length; y++) {
       if (bytes[x][y]) {
-        svg += "<rect x=\"" + (x + 1) * pixelSize + "\" y=\"" + (y + 1) * pixelSize + "\" width=\"" + pixelSize + "\" height=\"" + pixelSize + "\"/>\n";
+        svg += '<rect x="' + (x + 1) * pixelSize + '" y="' + (y + 1) * pixelSize + '" width="' + pixelSize + '" height="' + pixelSize + '"/>\n'
       }
     }
   }
-  svg += "</svg>\n";
-  return svg;
+  svg += '</svg>\n'
+  return svg
 }
 </script>
 

@@ -10,7 +10,7 @@ const banner = `/*
 * license  : ${pkg.license}
 * homepage : ${pkg.homepage}
 * build    : ${buildDate}
-*/`;
+*/`
 
 export default [{
   input: './lib/index.js',
@@ -65,4 +65,4 @@ export default [{
   plugins: [
     babel(),
   ]
-}];
+}]

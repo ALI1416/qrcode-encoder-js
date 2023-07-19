@@ -18,31 +18,31 @@
 <hr>
 <div id="svg"></div>
 <script type="module">
-  import {QRCode} from "../dist/qrcode-encoder.esm.js";
+  import {QRCode} from '../dist/qrcode-encoder.esm.js'
 
-  const svg = document.getElementById("svg");
-  const content = document.getElementById("content");
-  const level = document.getElementById("level");
-  const mode = document.getElementById("mode");
-  const versionNumber = document.getElementById("versionNumber");
-  const encoder = document.getElementById("encoder");
-  const tip = document.getElementById("tip");
-  let qr;
-  encoder.addEventListener("click", function () {
-    let contentValue = content.value;
-    let levelValue = level.value === "" ? undefined : Number(level.value);
-    let modeValue = mode.value === "" ? undefined : Number(mode.value);
-    let versionNumberValue = versionNumber.value === "" ? undefined : Number(versionNumber.value);
+  const svg = document.getElementById('svg')
+  const content = document.getElementById('content')
+  const level = document.getElementById('level')
+  const mode = document.getElementById('mode')
+  const versionNumber = document.getElementById('versionNumber')
+  const encoder = document.getElementById('encoder')
+  const tip = document.getElementById('tip')
+  let qr
+  encoder.addEventListener('click', function () {
+    let contentValue = content.value
+    let levelValue = level.value === '' ? undefined : Number(level.value)
+    let modeValue = mode.value === '' ? undefined : Number(mode.value)
+    let versionNumberValue = versionNumber.value === '' ? undefined : Number(versionNumber.value)
     try {
-      qr = new QRCode(contentValue, levelValue, modeValue, versionNumberValue);
-      tip.innerText = "内容：" + contentValue + "\n纠错等级：" + qr.Level + "\n编码模式：" + qr.Mode + "\n版本号：" + qr.VersionNumber;
-      svg.innerHTML = QrMatrix2Svg(qr.Matrix, 10);
+      qr = new QRCode(contentValue, levelValue, modeValue, versionNumberValue)
+      tip.innerText = '内容：' + contentValue + '\n纠错等级：' + qr.Level + '\n编码模式：' + qr.Mode + '\n版本号：' + qr.VersionNumber
+      svg.innerHTML = QrMatrix2Svg(qr.Matrix, 10)
     } catch (e) {
-      console.error(e);
-      tip.innerText += "\n" + e;
+      console.error(e)
+      tip.innerText += '\n' + e
     }
   })
-  encoder.click();
+  encoder.click()
 
   /**
    * 二维码boolean[][]转SVG
@@ -51,18 +51,18 @@
    * @return string SVG
    */
   function QrMatrix2Svg(bytes, pixelSize) {
-    let length = bytes.length;
-    let size = (length + 2) * pixelSize;
-    let svg = "<svg width=\"" + size + "\" height=\"" + size + "\" viewBox=\"0 0 " + size + " " + size + "\" xmlns=\"http://www.w3.org/2000/svg\">\n";
+    let length = bytes.length
+    let size = (length + 2) * pixelSize
+    let svg = '<svg width="' + size + '" height="' + size + '" viewBox="0 0 ' + size + ' ' + size + '" xmlns="http://www.w3.org/2000/svg">\n'
     for (let x = 0; x < length; x++) {
       for (let y = 0; y < length; y++) {
         if (bytes[x][y]) {
-          svg += "<rect x=\"" + (x + 1) * pixelSize + "\" y=\"" + (y + 1) * pixelSize + "\" width=\"" + pixelSize + "\" height=\"" + pixelSize + "\"/>\n";
+          svg += '<rect x="' + (x + 1) * pixelSize + '" y="' + (y + 1) * pixelSize + '" width="' + pixelSize + '" height="' + pixelSize + '"/>\n'
         }
       }
     }
-    svg += "</svg>\n";
-    return svg;
+    svg += '</svg>\n'
+    return svg
   }
 </script>
 </body>

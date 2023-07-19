@@ -1,3 +1,3 @@
-import {QRCode} from "./QRCode";
+import {QRCode} from './QRCode'
 
 export {QRCode}

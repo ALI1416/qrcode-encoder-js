@@ -11,8 +11,8 @@ class QRCodeException extends Error {
    * @param message 信息
    */
   constructor(message?: string) {
-    super(message);
-    this.name = "QRCodeException";
+    super(message)
+    this.name = 'QRCodeException'
   }
 }
 
