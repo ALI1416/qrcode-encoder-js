@@ -14,6 +14,8 @@
 
 注意：本项目不提供二维码绘制方法，如需绘制请看`使用示例`
 
+[在线示例](https://www.404z.cn/demo/qrcode-encoder.html)
+
 ### 其他语言项目
 
 - `.Net` : [ALI1416/QRCodeEncoder.Net](https://github.com/ALI1416/QRCodeEncoder.Net)
