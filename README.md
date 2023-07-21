@@ -16,6 +16,8 @@
 
 [在线示例](https://www.404z.cn/demo/qrcode-encoder.html)
 
+[API文档](https://api.404z.cn/)
+
 ### 其他语言项目
 
 - `.Net` : [ALI1416/QRCodeEncoder.Net](https://github.com/ALI1416/QRCodeEncoder.Net)
