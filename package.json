@@ -39,10 +39,10 @@
     "access": "public"
   },
   "devDependencies": {
-    "@babel/core": "^7.24.0",
+    "@babel/core": "^7.25.2",
     "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-terser": "^0.4.4",
-    "rollup": "^4.13.0",
-    "typescript": "^5.4.2"
+    "rollup": "^4.20.0",
+    "typescript": "^5.5.4"
   }
 }

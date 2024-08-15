@@ -23,7 +23,7 @@ export default [{
     },
   ],
   plugins: [
-    babel(),
+    babel({babelHelpers: 'bundled'}),
   ]
 }, {
   input: './lib/index.js',
@@ -51,7 +51,7 @@ export default [{
     },
   ],
   plugins: [
-    babel(),
+    babel({babelHelpers: 'bundled'}),
   ]
 }, {
   input: './lib/main.js',
@@ -63,6 +63,6 @@ export default [{
     },
   ],
   plugins: [
-    babel(),
+    babel({babelHelpers: 'bundled'}),
   ]
 }]
