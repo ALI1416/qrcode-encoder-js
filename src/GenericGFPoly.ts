@@ -23,7 +23,7 @@ class GenericGFPoly {
   readonly IsZero: boolean
 
   /**
-   * 构造函数
+   * 构造多项式
    * @param coefficients 多项式常数
    */
   constructor(coefficients: number[]) {
@@ -51,9 +51,10 @@ class GenericGFPoly {
   }
 
   /**
+   * 获取多项式中`次数`的系数
    *
-   * @param degree 获取多项式中`次数`的系数
-   * @return number 系数
+   * @param degree 次数
+   * @return {number} 系数
    */
   public GetCoefficient(degree: number): number {
     return this.Coefficients[this.Coefficients.length - 1 - degree]
@@ -61,6 +62,8 @@ class GenericGFPoly {
 
   /**
    * 加法
+   * @param other 被加数
+   * @return {GenericGFPoly} 结果
    */
   public Addition(other: GenericGFPoly): GenericGFPoly {
     if (this.IsZero) {
@@ -86,6 +89,9 @@ class GenericGFPoly {
 
   /**
    * 乘法
+   *
+   * @param other 被乘数
+   * @return {GenericGFPoly} 结果
    */
   public Multiply(other: GenericGFPoly): GenericGFPoly {
     if (this.IsZero || other.IsZero) {
@@ -109,6 +115,7 @@ class GenericGFPoly {
    * 单项式乘法
    * @param degree 次数
    * @param coefficient 系数
+   * @return {GenericGFPoly} 结果
    */
   public MultiplyByMonomial(degree: number, coefficient: number): GenericGFPoly {
     if (coefficient === 0) {
@@ -127,6 +134,8 @@ class GenericGFPoly {
 
   /**
    * 除法的余数
+   * @param other 被除数
+   * @return {GenericGFPoly} 余数
    */
   public RemainderOfDivide(other: GenericGFPoly): GenericGFPoly {
     let remainder = new GenericGFPoly(this.Coefficients)

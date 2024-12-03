@@ -336,7 +336,7 @@ function EmbedData(pattern: number[][], dimension: number, id: number, data: boo
  * @param id 模板序号
  * @param x x坐标
  * @param y y坐标
- * @return boolean 是否需要掩模
+ * @return {boolean} 是否需要掩模
  */
 function GetMaskBit(id: number, x: number, y: number): boolean {
   switch (id) {
@@ -373,7 +373,7 @@ function GetMaskBit(id: number, x: number, y: number): boolean {
  * 掩模惩戒规则
  * @param pattern 模板
  * @param dimension 尺寸
- * @return number 惩戒分
+ * @return {number} 惩戒分
  */
 function MaskPenaltyRule(pattern: number[][], dimension: number): number {
   return MaskPenaltyRule1(pattern, dimension)
@@ -389,7 +389,7 @@ function MaskPenaltyRule(pattern: number[][], dimension: number): number {
  * @description 惩戒分在个数>=5时生效
  * @param pattern 模板
  * @param dimension 尺寸
- * @return number 规则1惩戒分
+ * @return {number} 规则1惩戒分
  */
 function MaskPenaltyRule1(pattern: number[][], dimension: number): number {
   let penalty = 0
@@ -441,7 +441,7 @@ function MaskPenaltyRule1(pattern: number[][], dimension: number): number {
  * @description 惩戒分在出现次数>=1时生效
  * @param pattern 模板
  * @param dimension 尺寸
- * @return number 规则2惩戒分
+ * @return {number} 规则2惩戒分
  */
 function MaskPenaltyRule2(pattern: number[][], dimension: number): number {
   let penalty = 0
@@ -464,7 +464,7 @@ function MaskPenaltyRule2(pattern: number[][], dimension: number): number {
  * @description 惩戒分在出现次数>=1时生效
  * @param pattern 模板
  * @param dimension 尺寸
- * @return number 规则3惩戒分
+ * @return {number} 规则3惩戒分
  */
 function MaskPenaltyRule3(pattern: number[][], dimension: number): number {
   let penalty = 0
@@ -550,7 +550,7 @@ function MaskPenaltyRule3(pattern: number[][], dimension: number): number {
  * @description 惩戒分始终生效
  * @param pattern 模板
  * @param dimension 尺寸
- * @return number 规则4惩戒分
+ * @return {number} 规则4惩戒分
  */
 function MaskPenaltyRule4(pattern: number[][], dimension: number): number {
   let count = 0

@@ -10,12 +10,12 @@
  * 维度
  * @description 256
  */
-const DIMENSION = 256
+const DIMENSION: number = 256
 /**
  * 多项式
  * @description 0x011D -> 0000 0001 0001 1101 -> x^8 + x^4 + x^3 + x^2 + 1
  */
-const POLY = 0x011D
+const POLY: number = 0x011D
 
 /**
  * 指数表
@@ -42,6 +42,9 @@ for (let i = 0; i < DIMENSION - 1; i++) {
 
 /**
  * 加法
+ * @param a 加数
+ * @param b 被加数
+ * @return {number} 结果
  */
 function Addition(a: number, b: number): number {
   return a ^ b
@@ -49,6 +52,8 @@ function Addition(a: number, b: number): number {
 
 /**
  * 2的次方
+ * @param a 幂
+ * @return {number} 结果
  */
 function Exp(a: number): number {
   return ExpTable[a]
@@ -56,6 +61,8 @@ function Exp(a: number): number {
 
 /**
  * 逆运算
+ * @param a 被操作数
+ * @return {number} 结果
  */
 function Inverse(a: number): number {
   return ExpTable[DIMENSION - LogTable[a] - 1]
@@ -63,6 +70,9 @@ function Inverse(a: number): number {
 
 /**
  * 乘法
+ * @param a 乘数
+ * @param b 被乘数
+ * @return {number} 结果
  */
 function Multiply(a: number, b: number): number {
   if (a === 0 || b === 0) {

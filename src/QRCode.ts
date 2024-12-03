@@ -382,7 +382,7 @@ function TerminatorAndPadding(data: boolean[], dataBits: number, ptr: number) {
 /**
  * 探测编码模式
  * @param content 内容
- * @return number 编码模式
+ * @return {number} 编码模式
  *   <0 NUMERIC 数字0-9>
  *   <1 ALPHANUMERIC 数字0-9、大写字母A-Z、符号(空格)$%*+-./:>
  *   <2 BYTE(ISO-8859-1)>
