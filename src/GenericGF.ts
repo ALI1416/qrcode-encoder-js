@@ -27,8 +27,8 @@ const ExpTable: number[] = []
 const LogTable: number[] = [0]
 
 // 初始化指数表和对数表
-let x = 1
-for (let i = 0; i < DIMENSION; i++) {
+let x: number = 1
+for (let i: number = 0; i < DIMENSION; i++) {
   ExpTable[i] = x
   x <<= 1
   if (x >= DIMENSION) {
@@ -36,7 +36,7 @@ for (let i = 0; i < DIMENSION; i++) {
     x &= DIMENSION - 1
   }
 }
-for (let i = 0; i < DIMENSION - 1; i++) {
+for (let i: number = 0; i < DIMENSION - 1; i++) {
   LogTable[ExpTable[i]] = i
 }
 

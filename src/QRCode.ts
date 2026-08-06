@@ -66,7 +66,7 @@ class QRCode {
       throw new QRCodeException('内容类型 ' + (typeof content) + ' 不合法！应为 string')
     }
     // 纠错等级
-    if (typeof level === 'undefined') {
+    if (level === undefined) {
       level = 0
     } else if (typeof level === 'number') {
       if (level < 0 || level > 3) {
@@ -78,7 +78,7 @@ class QRCode {
     this.Level = level
     // 编码模式
     modeValue = DetectionMode(content)
-    if (typeof mode !== 'undefined') {
+    if (mode !== undefined) {
       if (typeof mode === 'number') {
         if (mode < 0 || mode > 3) {
           throw new QRCodeException('编码模式 ' + mode + ' 不合法！应为 [0,3]')
@@ -92,7 +92,7 @@ class QRCode {
     }
     this.Mode = modeValue
     // 内容bytes
-    let contentBytes = QRCodeUtils.GetUtf8Bytes(content)
+    let contentBytes: number[] = QRCodeUtils.GetUtf8Bytes(content)
     // 版本
     this.Version = new Version(contentBytes.length, this.Level, this.Mode, versionNumber)
     this.VersionNumber = this.Version.VersionNumber
@@ -124,22 +124,22 @@ class QRCode {
     /* 纠错 */
     let ec: number[][] = this.Version.Ec
     // 数据块数 或 纠错块数
-    let blocks = 0
+    let blocks: number = 0
     for (let ec of this.Version.Ec) {
       blocks += ec[0]
     }
     // 纠错块字节数
-    let ecBlockBytes = Math.floor((this.Version.DataAndEcBits - this.Version.DataBits) / 8 / blocks)
-    let dataBlocks = []
-    let ecBlocks = []
-    let blockNum = 0
-    let dataByteNum = 0
+    let ecBlockBytes: number = Math.floor((this.Version.DataAndEcBits - this.Version.DataBits) / 8 / blocks)
+    let dataBlocks: number[][] = []
+    let ecBlocks: number[][] = []
+    let blockNum: number = 0
+    let dataByteNum: number = 0
     for (let e of ec) {
-      let count = e[0]
-      let dataBytes = e[1]
-      for (let j = 0; j < count; j++) {
+      let count: number = e[0]
+      let dataBytes: number = e[1]
+      for (let j: number = 0; j < count; j++) {
         // 数据块
-        let dataBlock = QRCodeUtils.GetBytes(dataBits, dataByteNum * 8, dataBytes)
+        let dataBlock: number[] = QRCodeUtils.GetBytes(dataBits, dataByteNum * 8, dataBytes)
         dataBlocks[blockNum] = dataBlock
         // 纠错块
         ecBlocks[blockNum] = Encoder(dataBlock, ecBlockBytes)
@@ -150,18 +150,18 @@ class QRCode {
 
     /* 交叉数据和纠错 */
     let dataAndEcBits: boolean[] = []
-    let dataBlockMaxBytes = dataBlocks[blocks - 1].length
-    let dataAndEcBitPtr = 0
-    for (let i = 0; i < dataBlockMaxBytes; i++) {
-      for (let j = 0; j < blocks; j++) {
+    let dataBlockMaxBytes: number = dataBlocks[blocks - 1].length
+    let dataAndEcBitPtr: number = 0
+    for (let i: number = 0; i < dataBlockMaxBytes; i++) {
+      for (let j: number = 0; j < blocks; j++) {
         if (dataBlocks[j].length > i) {
           QRCodeUtils.AddBits(dataAndEcBits, dataAndEcBitPtr, dataBlocks[j][i], 8)
           dataAndEcBitPtr += 8
         }
       }
     }
-    for (let i = 0; i < ecBlockBytes; i++) {
-      for (let j = 0; j < blocks; j++) {
+    for (let i: number = 0; i < ecBlockBytes; i++) {
+      for (let j: number = 0; j < blocks; j++) {
         QRCodeUtils.AddBits(dataAndEcBits, dataAndEcBitPtr, ecBlocks[j][i], 8)
         dataAndEcBitPtr += 8
       }
@@ -216,21 +216,21 @@ const ALPHA_NUMERIC_TABLE: number[] = [
  * @param contentBytes 内容bytes
  * @param version 版本
  */
-function ModeNumbers(dataBits: boolean[], contentBytes: number[], version: Version) {
+function ModeNumbers(dataBits: boolean[], contentBytes: number[], version: Version): void {
   // 数据指针
-  let ptr = 0
+  let ptr: number = 0
   // 模式指示符(4bit) NUMERIC 0b0001=1
   // 数据来源 ISO/IEC 18004-2015 -> 7.4.1 -> Table 2 -> QR Code symbols列Numbers行
   QRCodeUtils.AddBits(dataBits, ptr, 1, 4)
   ptr += 4
   // 内容字节数
-  let contentLength = contentBytes.length
+  let contentLength: number = contentBytes.length
   // `内容字节数`bit数(10/12/14bit)
-  let contentBytesBits = version.ContentBytesBits
+  let contentBytesBits: number = version.ContentBytesBits
   QRCodeUtils.AddBits(dataBits, ptr, contentLength, contentBytesBits)
   ptr += contentBytesBits
   // 内容 3个字符10bit 2个字符7bit 1个字符4bit
-  for (let i = 0; i < contentLength - 2; i += 3) {
+  for (let i: number = 0; i < contentLength - 2; i += 3) {
     QRCodeUtils.AddBits(dataBits, ptr, (contentBytes[i] - 48) * 100 + (contentBytes[i + 1] - 48) * 10 + contentBytes[i + 2] - 48, 10)
     ptr += 10
   }
@@ -256,21 +256,21 @@ function ModeNumbers(dataBits: boolean[], contentBytes: number[], version: Versi
  * @param contentBytes 内容bytes
  * @param version 版本
  */
-function ModeAlphaNumeric(dataBits: boolean[], contentBytes: number[], version: Version) {
+function ModeAlphaNumeric(dataBits: boolean[], contentBytes: number[], version: Version): void {
   // 数据指针
-  let ptr = 0
+  let ptr: number = 0
   // 模式指示符(4bit) ALPHANUMERIC 0b0010=2
   // 数据来源 ISO/IEC 18004-2015 -> 7.4.1 -> Table 2 -> QR Code symbols列Alphanumeric行
   QRCodeUtils.AddBits(dataBits, ptr, 2, 4)
   ptr += 4
   // 内容字节数
-  let contentLength = contentBytes.length
+  let contentLength: number = contentBytes.length
   // `内容字节数`bit数(9/11/13bit)
-  let contentBytesBits = version.ContentBytesBits
+  let contentBytesBits: number = version.ContentBytesBits
   QRCodeUtils.AddBits(dataBits, ptr, contentLength, contentBytesBits)
   ptr += contentBytesBits
   // 内容 2个字符11bit 1个字符6bit
-  for (let i = 0; i < contentLength - 1; i += 2) {
+  for (let i: number = 0; i < contentLength - 1; i += 2) {
     QRCodeUtils.AddBits(dataBits, ptr, ALPHA_NUMERIC_TABLE[contentBytes[i]] * 45 + ALPHA_NUMERIC_TABLE[contentBytes[i + 1]], 11)
     ptr += 11
   }
@@ -288,21 +288,21 @@ function ModeAlphaNumeric(dataBits: boolean[], contentBytes: number[], version: 
  * @param contentBytes 内容bytes
  * @param version 版本
  */
-function ModeByteIso88591(dataBits: boolean[], contentBytes: number[], version: Version) {
+function ModeByteIso88591(dataBits: boolean[], contentBytes: number[], version: Version): void {
   // 数据指针
-  let ptr = 0
+  let ptr: number = 0
   // 模式指示符(4bit) BYTE 0b0100=4
   // 数据来源 ISO/IEC 18004-2015 -> 7.4.1 -> Table 2 -> QR Code symbols列Byte行
   QRCodeUtils.AddBits(dataBits, ptr, 4, 4)
   ptr += 4
   // 内容字节数
-  let contentLength = contentBytes.length
+  let contentLength: number = contentBytes.length
   // `内容字节数`bit数(8/16bit)
-  let contentBytesBits = version.ContentBytesBits
+  let contentBytesBits: number = version.ContentBytesBits
   QRCodeUtils.AddBits(dataBits, ptr, contentLength, contentBytesBits)
   ptr += contentBytesBits
   // 内容
-  for (let i = 0; i < contentLength; i++) {
+  for (let i: number = 0; i < contentLength; i++) {
     QRCodeUtils.AddBits(dataBits, ptr, contentBytes[i], 8)
     ptr += 8
   }
@@ -316,9 +316,9 @@ function ModeByteIso88591(dataBits: boolean[], contentBytes: number[], version: 
  * @param contentBytes 内容bytes
  * @param version 版本
  */
-function ModeByteUtf8(dataBits: boolean[], contentBytes: number[], version: Version) {
+function ModeByteUtf8(dataBits: boolean[], contentBytes: number[], version: Version): void {
   // 数据指针
-  let ptr = 0
+  let ptr: number = 0
   // ECI模式指示符(4bit) 0b0111=7
   // 数据来源 ISO/IEC 18004-2015 -> 7.4.1 -> Table 2 -> QR Code symbols列ECI行
   QRCodeUtils.AddBits(dataBits, ptr, 7, 4)
@@ -332,13 +332,13 @@ function ModeByteUtf8(dataBits: boolean[], contentBytes: number[], version: Vers
   QRCodeUtils.AddBits(dataBits, ptr, 4, 4)
   ptr += 4
   // 内容字节数
-  let contentLength = contentBytes.length
+  let contentLength: number = contentBytes.length
   // `内容字节数`bit数(8/16bit)
-  let contentBytesBits = version.ContentBytesBits
+  let contentBytesBits: number = version.ContentBytesBits
   QRCodeUtils.AddBits(dataBits, ptr, contentLength, contentBytesBits)
   ptr += contentBytesBits
   // 内容
-  for (let i = 0; i < contentLength; i++) {
+  for (let i: number = 0; i < contentLength; i++) {
     QRCodeUtils.AddBits(dataBits, ptr, contentBytes[i], 8)
     ptr += 8
   }
@@ -352,24 +352,24 @@ function ModeByteUtf8(dataBits: boolean[], contentBytes: number[], version: Vers
  * @param dataBits 数据bits数
  * @param ptr 数据指针
  */
-function TerminatorAndPadding(data: boolean[], dataBits: number, ptr: number) {
+function TerminatorAndPadding(data: boolean[], dataBits: number, ptr: number): void {
   // 如果有刚好填满，则不需要结束符和补齐符
   // 如果还剩1-8bit，需要1-8bit结束符，不用补齐符
   // 如果还剩8+bit，先填充4bit结束符，再填充结束符使8bit对齐，再交替补齐符至填满
   if (dataBits - ptr > 7) {
-    let temp = ptr
+    let temp: number = ptr
     // 结束符(4bit)
     // 数据来源 ISO/IEC 18004-2015 -> 7.4.9
     ptr += 4
     // 结束符(8bit对齐)
     ptr = ((Math.floor((ptr - 1) / 8)) + 1) * 8
-    for (let i = 0; i < ptr - temp; i++) {
+    for (let i: number = 0; i < ptr - temp; i++) {
       data.push(false)
     }
     // 补齐符 交替0b11101100=0xEC和0b00010001=0x11至填满
     // 数据来源 ISO/IEC 18004-2015 -> 7.4.10
-    let count = (dataBits - ptr) / 8
-    for (let i = 0; i < count; i++) {
+    let count: number = (dataBits - ptr) / 8
+    for (let i: number = 0; i < count; i++) {
       if (i % 2 === 0) {
         data.push(...NUMBER_0xEC_8BITS)
       } else {
@@ -389,25 +389,25 @@ function TerminatorAndPadding(data: boolean[], dataBits: number, ptr: number) {
  *   <3 BYTE(UTF-8)>
  */
 function DetectionMode(content: string): number {
-  let length = content.length
+  let length: number = content.length
   // 为了与ZXing结果保持一致，长度为0时使用BYTE(ISO-8859-1)编码
   if (length === 0) {
     return 2
   }
   // BYTE(UTF-8)
-  for (let i = 0; i < length; i++) {
+  for (let i: number = 0; i < length; i++) {
     if (content.charCodeAt(i) > 255) {
       return 3
     }
   }
   // BYTE(ISO-8859-1)
-  for (let i = 0; i < length; i++) {
+  for (let i: number = 0; i < length; i++) {
     if (content.charCodeAt(i) > 127 || ALPHA_NUMERIC_TABLE[content.charCodeAt(i)] > 44) {
       return 2
     }
   }
   // ALPHANUMERIC 数字0-9、大写字母A-Z、符号(空格)$%*+-./:
-  for (let i = 0; i < length; i++) {
+  for (let i: number = 0; i < length; i++) {
     if (ALPHA_NUMERIC_TABLE[content.charCodeAt(i)] > 9) {
       return 1
     }

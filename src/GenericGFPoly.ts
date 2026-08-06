@@ -27,11 +27,11 @@ class GenericGFPoly {
    * @param coefficients 多项式常数
    */
   constructor(coefficients: number[]) {
-    let coefficientsLength = coefficients.length
+    let coefficientsLength: number = coefficients.length
     // 常数项为0
     if (coefficients[0] === 0) {
       // 查找第一个非0的下标
-      let firstNonZero = 1
+      let firstNonZero: number = 1
       while (firstNonZero < coefficientsLength && coefficients[firstNonZero] === 0) {
         firstNonZero++
       }
@@ -72,16 +72,16 @@ class GenericGFPoly {
     if (other.IsZero) {
       return this
     }
-    let smallerCoefficients = this.Coefficients
-    let largerCoefficients = other.Coefficients
+    let smallerCoefficients: number[] = this.Coefficients
+    let largerCoefficients: number[] = other.Coefficients
     if (smallerCoefficients.length > largerCoefficients.length) {
-      let temp = largerCoefficients
+      let temp: number[] = largerCoefficients
       largerCoefficients = smallerCoefficients
       smallerCoefficients = temp
     }
-    let lengthDiff = largerCoefficients.length - smallerCoefficients.length
-    let sumDiff = largerCoefficients.slice(0, lengthDiff)
-    for (let i = lengthDiff; i < largerCoefficients.length; i++) {
+    let lengthDiff: number = largerCoefficients.length - smallerCoefficients.length
+    let sumDiff: number[] = largerCoefficients.slice(0, lengthDiff)
+    for (let i: number = lengthDiff; i < largerCoefficients.length; i++) {
       sumDiff[i] = GenericGF.Addition(smallerCoefficients[i - lengthDiff], largerCoefficients[i])
     }
     return new GenericGFPoly(sumDiff)
@@ -97,14 +97,14 @@ class GenericGFPoly {
     if (this.IsZero || other.IsZero) {
       return Zero
     }
-    let aCoefficients = this.Coefficients
-    let bCoefficients = other.Coefficients
-    let aLength = aCoefficients.length
-    let bLength = bCoefficients.length
+    let aCoefficients: number[] = this.Coefficients
+    let bCoefficients: number[] = other.Coefficients
+    let aLength: number = aCoefficients.length
+    let bLength: number = bCoefficients.length
     let product: number[] = []
-    for (let i = 0; i < aLength; i++) {
-      let aCoefficient = aCoefficients[i]
-      for (let j = 0; j < bLength; j++) {
+    for (let i: number = 0; i < aLength; i++) {
+      let aCoefficient: number = aCoefficients[i]
+      for (let j: number = 0; j < bLength; j++) {
         product[i + j] = GenericGF.Addition(product[i + j], GenericGF.Multiply(aCoefficient, bCoefficients[j]))
       }
     }
@@ -121,12 +121,12 @@ class GenericGFPoly {
     if (coefficient === 0) {
       return Zero
     }
-    let size = this.Coefficients.length
+    let size: number = this.Coefficients.length
     let product: number[] = []
-    for (let i = 0; i < size; i++) {
+    for (let i: number = 0; i < size; i++) {
       product[i] = GenericGF.Multiply(this.Coefficients[i], coefficient)
     }
-    for (let i = 0; i < degree; i++) {
+    for (let i: number = 0; i < degree; i++) {
       product.push(0)
     }
     return new GenericGFPoly(product)
@@ -138,13 +138,13 @@ class GenericGFPoly {
    * @return {GenericGFPoly} 余数
    */
   public RemainderOfDivide(other: GenericGFPoly): GenericGFPoly {
-    let remainder = new GenericGFPoly(this.Coefficients)
-    let denominatorLeadingTerm = other.GetCoefficient(other.Degree)
-    let inverseDenominatorLeadingTerm = GenericGF.Inverse(denominatorLeadingTerm)
+    let remainder: GenericGFPoly = new GenericGFPoly(this.Coefficients)
+    let denominatorLeadingTerm: number = other.GetCoefficient(other.Degree)
+    let inverseDenominatorLeadingTerm: number = GenericGF.Inverse(denominatorLeadingTerm)
     while (remainder.Degree >= other.Degree && !remainder.IsZero) {
-      let degreeDifference = remainder.Degree - other.Degree
-      let scale = GenericGF.Multiply(remainder.GetCoefficient(remainder.Degree), inverseDenominatorLeadingTerm)
-      let term = other.MultiplyByMonomial(degreeDifference, scale)
+      let degreeDifference: number = remainder.Degree - other.Degree
+      let scale: number = GenericGF.Multiply(remainder.GetCoefficient(remainder.Degree), inverseDenominatorLeadingTerm)
+      let term: GenericGFPoly = other.MultiplyByMonomial(degreeDifference, scale)
       remainder = remainder.Addition(term)
     }
     return remainder

@@ -59,7 +59,7 @@ class Version {
     let versionNumberValue: number
     // 版本号
     versionNumberValue = DetectionVersion(length, level, mode)
-    if (typeof versionNumber !== 'undefined') {
+    if (versionNumber !== undefined) {
       if (typeof versionNumber === 'number') {
         if (versionNumber < 1 || versionNumber > 40) {
           throw new QRCodeException('版本号 ' + versionNumber + ' 不合法！应为 [1,40]')
@@ -159,21 +159,21 @@ function DetectionVersion(length: number, level: number, mode: number): number {
  */
 function ModeNumeric(length: number, level: number): number {
   // `内容字节数`bit数 1-9版本10bit
-  for (let i = 0; i < 9; i++) {
+  for (let i: number = 0; i < 9; i++) {
     // 模式指示符(4bit)+`内容字节数`bit数(10bit)=14bit
     if (length <= ModeNumericMaxLength(DATA_BYTES[i][level] * 8 - 14)) {
       return i
     }
   }
   // `内容字节数`bit数 10-26版本12bit
-  for (let i = 9; i < 26; i++) {
+  for (let i: number = 9; i < 26; i++) {
     // 模式指示符(4bit)+`内容字节数`bit数(12bit)=16bit
     if (length <= ModeNumericMaxLength(DATA_BYTES[i][level] * 8 - 16)) {
       return i
     }
   }
   // `内容字节数`bit数 27-40版本14bit
-  for (let i = 26; i < 40; i++) {
+  for (let i: number = 26; i < 40; i++) {
     // 模式指示符(4bit)+`内容字节数`bit数(14bit)=18bit
     if (length <= ModeNumericMaxLength(DATA_BYTES[i][level] * 8 - 18)) {
       return i
@@ -189,8 +189,8 @@ function ModeNumeric(length: number, level: number): number {
  */
 function ModeNumericMaxLength(maxBits: number): number {
   // 3个字符10bit 2个字符7bit 1个字符4bit
-  let maxLength = maxBits / 10 * 3
-  let remainder = maxBits % 10
+  let maxLength: number = maxBits / 10 * 3
+  let remainder: number = maxBits % 10
   if (remainder > 6) {
     maxLength += 2
   } else if (remainder > 3) {
@@ -207,21 +207,21 @@ function ModeNumericMaxLength(maxBits: number): number {
  */
 function ModeAlphaNumeric(length: number, level: number): number {
   // `内容字节数`bit数 1-9版本9bit
-  for (let i = 0; i < 9; i++) {
+  for (let i: number = 0; i < 9; i++) {
     // 模式指示符(4bit)+`内容字节数`bit数(9bit)=13bit
     if (length <= ModeAlphaNumericMaxLength(DATA_BYTES[i][level] * 8 - 13)) {
       return i
     }
   }
   // `内容字节数`bit数 10-26版本11bit
-  for (let i = 9; i < 26; i++) {
+  for (let i: number = 9; i < 26; i++) {
     // 模式指示符(4bit)+`内容字节数`bit数(11bit)=15bit
     if (length <= ModeAlphaNumericMaxLength(DATA_BYTES[i][level] * 8 - 15)) {
       return i
     }
   }
   // `内容字节数`bit数 27-40版本13bit
-  for (let i = 26; i < 40; i++) {
+  for (let i: number = 26; i < 40; i++) {
     // 模式指示符(4bit)+`内容字节数`bit数(13bit)=17bit
     if (length <= ModeAlphaNumericMaxLength(DATA_BYTES[i][level] * 8 - 17)) {
       return i
@@ -237,8 +237,8 @@ function ModeAlphaNumeric(length: number, level: number): number {
  */
 function ModeAlphaNumericMaxLength(maxBits: number): number {
   // 2个字符11bit 1个字符6bit
-  let maxLength = maxBits / 11 * 2
-  let remainder = maxBits % 11
+  let maxLength: number = maxBits / 11 * 2
+  let remainder: number = maxBits % 11
   if (remainder > 5) {
     maxLength++
   }
@@ -253,14 +253,14 @@ function ModeAlphaNumericMaxLength(maxBits: number): number {
  */
 function ModeByte(length: number, level: number): number {
   // `内容字节数`bit数 1-9版本8bit
-  for (let i = 0; i < 9; i++) {
+  for (let i: number = 0; i < 9; i++) {
     // 模式指示符(4bit)+`内容字节数`bit数(8bit)+结束符(4bit)=2字节
     if (length < DATA_BYTES[i][level] - 1) {
       return i
     }
   }
   // `内容字节数`bit数 10-40版本16bit
-  for (let i = 9; i < 40; i++) {
+  for (let i: number = 9; i < 40; i++) {
     // 模式指示符(4bit)+`内容字节数`bit数(16bit)+结束符(4bit)=3字节
     if (length < DATA_BYTES[i][level] - 2) {
       return i

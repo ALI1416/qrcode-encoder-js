@@ -2,7 +2,7 @@ import * as pkg from './package.json'
 import babel from '@rollup/plugin-babel'
 import terser from '@rollup/plugin-terser'
 
-const buildDate = Date()
+const buildDate = String(new Date())
 const banner = `/*
 * project  : ${pkg.name}
 * version  : ${pkg.version}
