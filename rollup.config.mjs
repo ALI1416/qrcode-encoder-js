@@ -1,15 +1,14 @@
-import * as pkg from './package.json'
+import pkg from './package.json' with {type: 'json'}
 import babel from '@rollup/plugin-babel'
 import terser from '@rollup/plugin-terser'
 
-const buildDate = String(new Date())
 const banner = `/*
 * project  : ${pkg.name}
 * version  : ${pkg.version}
 * author   : ${pkg.author.name}[${pkg.author.email}]
 * license  : ${pkg.license}
 * homepage : ${pkg.homepage}
-* build    : ${buildDate}
+* build    : ${new Date()}
 */`
 
 export default [{
@@ -24,7 +23,7 @@ export default [{
   ],
   plugins: [
     babel({babelHelpers: 'bundled'}),
-  ]
+  ],
 }, {
   input: './lib/index.js',
   output: [
@@ -37,10 +36,10 @@ export default [{
   plugins: [
     terser({
       format: {
-        preamble: banner
-      }
+        preamble: banner,
+      },
     }),
-  ]
+  ],
 }, {
   input: './lib/main.js',
   output: [
@@ -52,7 +51,7 @@ export default [{
   ],
   plugins: [
     babel({babelHelpers: 'bundled'}),
-  ]
+  ],
 }, {
   input: './lib/main.js',
   output: [
@@ -64,5 +63,5 @@ export default [{
   ],
   plugins: [
     babel({babelHelpers: 'bundled'}),
-  ]
+  ],
 }]
